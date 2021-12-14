@@ -16,6 +16,10 @@ int main() {
 
    View mainView(FloatRect(0, 0, resolution.x, resolution.y));
 
+   Clock clock;
+
+   Time gameTime;
+
    Vector2f mouseMapPosition;
 
    Vector2i mouseScreenPosition;
@@ -37,6 +41,14 @@ int main() {
        if (Keyboard::isKeyPressed(Keyboard::Escape)){
            window.close();
        }
+
+	   // Where is the mouse pointer
+	   //mouseScreenPosition = Mouse::getPosition();
+
+	   // Convert mouse position to world coordinates of mainView
+	   //mouseMapPosition = window.mapPixelToCoords(
+		   //Mouse::getPosition(), mainView);
+
 
 	   if (state == State::PLAYING) {
 		   // Handle the pressing and releasing of the WASD keys
@@ -66,6 +78,27 @@ int main() {
 		   else {
 			   sub.stopRight();
 		   }
+	   }
+
+	   if (state == State::PLAYING) {
+		   Time dt = clock.restart();
+
+		   gameTime += dt;
+
+		   float dtAsSeconds = dt.asSeconds();
+
+		   mouseScreenPosition = Mouse::getPosition();
+
+		   mouseMapPosition = window.mapPixelToCoords(
+			   Mouse::getPosition(), mainView);
+
+		   sub.update(dtAsSeconds, Mouse::getPosition());
+
+		   Vector2f subPosition(sub.getCenter());
+	   }
+
+
+	   if (state == State::PLAYING) {
 		   window.setView(mainView);
 
 		   window.draw(spriteBackground);

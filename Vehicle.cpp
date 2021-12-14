@@ -17,8 +17,8 @@ vehicle::vehicle(){
 }
 
 void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
-	m_vehicleX.x = map.width / 2;
-	m_vehicleY.y = map.height / 2;
+	m_Position.x = map.width / 2;
+	m_Position.y = map.height / 2;
 
 	m_Map.left = map.left;
 	m_Map.width = map.width;
@@ -36,7 +36,7 @@ FloatRect vehicle::getPosition() {
 }
 
 Vector2f vehicle::getCenter() {
-	return m_vehicleX, m_vehicleY;
+	return m_Position;
 }
 
 float vehicle::getRotation() {
@@ -86,41 +86,40 @@ void vehicle::stopDown(){
 void vehicle::update(float elapsedTime, Vector2i mousePosition){
 
 	if (m_UpPressed){
-		m_vehicleY.y -= m_speed * elapsedTime;
+		m_Position.y -= m_speed * elapsedTime;
 	}
 
 	if (m_DownPressed){
-		m_vehicleY.y += m_speed * elapsedTime;
+		m_Position.y += m_speed * elapsedTime;
 	}
 
 	if (m_RightPressed){
-		m_vehicleX.x += m_speed * elapsedTime;
+		m_Position.x += m_speed * elapsedTime;
 	}
 
 	if (m_LeftPressed){
-		m_vehicleX.x -= m_speed * elapsedTime;
+		m_Position.x -= m_speed * elapsedTime;
 	}
 
-	m_Sprite.setPosition(m_vehicleY);
-	m_Sprite.setPosition(m_vehicleX);
+	m_Sprite.setPosition(m_Position);
 
 
 
 	// Keep the player in the arena
-	if (m_vehicleX.x > m_Map.width - m_TileSize){
-		m_vehicleX.x = m_Map.width - m_TileSize;
+	if (m_Position.x > m_Map.width - m_TileSize){
+		m_Position.x = m_Map.width - m_TileSize;
 	}
 
-	if (m_vehicleX.x < m_Map.left + m_TileSize){
-		m_vehicleX.x = m_Map.left + m_TileSize;
+	if (m_Position.x < m_Map.left + m_TileSize){
+		m_Position.x = m_Map.left + m_TileSize;
 	}
 
-	if (m_vehicleY.y > m_Map.height - m_TileSize){
-		m_vehicleY.y = m_Map.height - m_TileSize;
+	if (m_Position.y > m_Map.height - m_TileSize){
+		m_Position.y = m_Map.height - m_TileSize;
 	}
 
-	if (m_vehicleY.y < m_Map.top + m_TileSize){
-		m_vehicleY.y = m_Map.top + m_TileSize;
+	if (m_Position.y < m_Map.top + m_TileSize){
+		m_Position.y = m_Map.top + m_TileSize;
 	}
 
 	float angle = (atan2(mousePosition.y - m_Resolution.y / 2,

@@ -35,8 +35,7 @@ private:
 	const float START_SPEED = 200;
 	const float START_HEALTH = 100;
 
-	Vector2f m_vehicleX;
-	Vector2f m_vehicleY;
+	Vector2f m_Position;
 
 	Sprite m_Sprite;
 	
