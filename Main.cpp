@@ -27,7 +27,7 @@ int main() {
 
    Vector2i mouseScreenPosition;
 
-   vehicle sub;
+   vehicle sub(0, 0);
 
    Rocks rock(500,500);
 
@@ -99,7 +99,6 @@ int main() {
 		   map.left = 0;
 		   map.top = 0;
 
-
 		   Time dt = clock.restart();
 
 		   gameTime += dt;
@@ -115,9 +114,15 @@ int main() {
 
 		   Vector2f subPosition(sub.getCenter());
 
-		   //for (int i = 0; i < 100; i++) {
-
-		   //}
+		   //Collision Detection
+		   for (int i = 0; i < 100; i++) {
+			   for (int j = 0; j < 100; j++) {
+				   if (sub.getPosition().intersects
+				   (rock.getPosition())) {
+					   sub.getDistance();
+				   }
+			   }
+		   }
 	   }
 
 	   

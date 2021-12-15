@@ -1,11 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include "Vehicle.h"
 #include "TileManager.h"
+#include <iostream>
 
 using namespace sf;
 using namespace std;
 
-vehicle::vehicle(){
+vehicle::vehicle(float subX, float subY){
+	m_Position.x = subX;
+	m_Position.y = subY;
+
 	m_speed = START_SPEED;
 	m_health = START_HEALTH;
 	m_maxHealth = START_HEALTH;
@@ -132,4 +136,12 @@ void vehicle::update(float elapsedTime, Vector2i mousePosition){
 void vehicle::boost(int boost) {
 	boost = .5;
 	m_speed += (START_SPEED + boost);
+}
+
+void vehicle::getDistance() {
+	cout << "X: " << m_Position.x << endl;
+	cout << "Y: " << m_Position.y << endl;
+
+	distVert = m_Position.x --;
+	distHoriz = m_Position.y --;
 }

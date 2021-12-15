@@ -10,7 +10,7 @@ using namespace std;
 class vehicle
 {
 public: 
-	vehicle();
+	vehicle(float subX, float subY);
 	void spawn(IntRect map, Vector2f resolution, int tileSize);
 	FloatRect getPosition();
 	Vector2f getCenter();
@@ -30,6 +30,8 @@ public:
 
 	void update(float elapsedTime, Vector2i mousePosition);
 	void boost(int boost);
+
+	void getDistance();
 
 private:
 	const float START_SPEED = 200;
@@ -55,5 +57,8 @@ private:
 	int m_health;
 	int m_maxHealth;
 	float m_speed;
+
+	float distHoriz;
+	float distVert;
 };
 #endif
