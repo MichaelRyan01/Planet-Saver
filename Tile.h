@@ -8,7 +8,9 @@
 class Tile
 {
 public:
+	//Constructor 
 	Tile();
+	//backgound method of type int 
 	int createBackground(sf::VertexArray& rVA, sf::IntRect map);
 
 private:

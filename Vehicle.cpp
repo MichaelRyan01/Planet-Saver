@@ -105,7 +105,7 @@ void vehicle::update(float elapsedTime, Vector2i mousePosition){
 
 
 
-	// Keep the player in the arena
+	// Keep the sub in the arena
 	if (m_Position.x > m_Map.width - m_TileSize){
 		m_Position.x = m_Map.width - m_TileSize;
 	}

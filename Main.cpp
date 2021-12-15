@@ -1,5 +1,8 @@
 #include "TileManager.h"
 #include "Vehicle.h"
+#include "Rocks.h"
+#include "Tile.h"
+#include "Waste.h"
 
 int main() {
    TileManager holder;
@@ -26,6 +29,13 @@ int main() {
 
    vehicle sub;
 
+   Rocks rock(500,500);
+
+   Waste waste(1000,750);
+
+   //Rocks rock2;
+   //Rocks rock3;
+
    IntRect map;
 
    VertexArray background;
@@ -37,7 +47,9 @@ int main() {
    spriteBackground.setTexture(textureBackground);
    spriteBackground.setPosition(0, 0);
 
+   //While the window is open
    while (window.isOpen()){
+	   //Closes the window
        if (Keyboard::isKeyPressed(Keyboard::Escape)){
            window.close();
        }
@@ -80,7 +92,14 @@ int main() {
 		   }
 	   }
 
+	   //Updates the pixels and current state of the sub 
 	   if (state == State::PLAYING) {
+		   map.width = 500;
+		   map.height = 500;
+		   map.left = 0;
+		   map.top = 0;
+
+
 		   Time dt = clock.restart();
 
 		   gameTime += dt;
@@ -95,15 +114,24 @@ int main() {
 		   sub.update(dtAsSeconds, Mouse::getPosition());
 
 		   Vector2f subPosition(sub.getCenter());
+
+		   //for (int i = 0; i < 100; i++) {
+
+		   //}
 	   }
 
-
+	   
+	   //Draws the view in the window while in the playing state 
 	   if (state == State::PLAYING) {
 		   window.setView(mainView);
 
 		   window.draw(spriteBackground);
 
+		   window.draw(rock.getSprite());
+
 		   window.draw(sub.getSprite());
+
+		   window.draw(waste.getSprite());
 
 		   window.display();
 	   }
