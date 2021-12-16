@@ -13,3 +13,7 @@ Rocks::Rocks(float rockX, float rockY){
 Sprite Rocks::getSprite() {
 	return r_Sprite;
 }
+
+FloatRect Rocks::getPosition() {
+	return r_Sprite.getGlobalBounds();
+}

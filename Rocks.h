@@ -14,6 +14,7 @@ class Rocks
 public:
 	Rocks(float rockX, float rockY);
 	Sprite getSprite();
+	FloatRect getPosition();
 
 private:
 	float rockX = 0;
