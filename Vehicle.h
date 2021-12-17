@@ -31,11 +31,22 @@ public:
 	void update(float elapsedTime, Vector2i mousePosition);
 	void boost(int boost);
 
-	void getDistance();
+	int negDistanceX();
+	int posDistanceX();
+	int negDistanceY();
+	int posDistanceY();
+
+	float getY();
+	float getX();
+
+	//int getDistance();
 
 private:
 	const float START_SPEED = 200;
 	const float START_HEALTH = 100;
+
+	float subX = 0;
+	float subY = 0;
 
 	Vector2f m_Position;
 
@@ -57,8 +68,5 @@ private:
 	int m_health;
 	int m_maxHealth;
 	float m_speed;
-
-	float distHoriz;
-	float distVert;
 };
 #endif

@@ -3,6 +3,7 @@
 #include "Rocks.h"
 #include "Tile.h"
 #include "Waste.h"
+#include "GameManager.h"
 
 int main() {
    TileManager holder;
@@ -114,18 +115,42 @@ int main() {
 
 		   Vector2f subPosition(sub.getCenter());
 
+
 		   //Collision Detection
 		   for (int i = 0; i < 100; i++) {
-			   for (int j = 0; j < 100; j++) {
+			   for (int j = 0; j < 1; j++) {
+				   //if (sub.getPosition().intersects
+				   //(rock.getPosition())) {
+				   // rock.getCenter();
+					//sub.negDistanceY();
+					//sub.posDistanceX();
+					//clock.restart();
+				   //}
+
 				   if (sub.getPosition().intersects
 				   (rock.getPosition())) {
-					   sub.getDistance();
+					   if (sub.getX() <= rock.getX() + 10) {
+						   sub.negDistanceX();
+					   }
+					   else if (sub.getX() >= rock.getX() - 10) {
+						   sub.posDistanceX();
+					   }
+					   else if (sub.getY() <= rock.getY() + 10) {
+						   sub.negDistanceY();
+					   }
+					   else if (sub.getY() >= rock.getY() - 10) {
+						   sub.posDistanceY();
+					   }
 				   }
 			   }
 		   }
 	   }
 
-	   
+	   /*
+	   ********
+	   * DRAW *
+	   ********
+	   */
 	   //Draws the view in the window while in the playing state 
 	   if (state == State::PLAYING) {
 		   window.setView(mainView);

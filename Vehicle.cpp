@@ -138,10 +138,34 @@ void vehicle::boost(int boost) {
 	m_speed += (START_SPEED + boost);
 }
 
-void vehicle::getDistance() {
-	cout << "X: " << m_Position.x << endl;
-	cout << "Y: " << m_Position.y << endl;
+int vehicle::negDistanceX() {
+	float newX = m_Position.x --;
 
-	distVert = m_Position.x --;
-	distHoriz = m_Position.y --;
+	return newX;
+}
+
+int vehicle::posDistanceX() {
+	float newX = m_Position.x++;
+
+	return newX;
+}
+
+int vehicle::negDistanceY() {
+	float newY = m_Position.y--;
+
+	return newY;
+}
+
+int vehicle::posDistanceY() {
+	float newY = m_Position.y++;
+
+	return newY;
+}
+
+float vehicle::getY() {
+	return subY;
+}
+
+float vehicle::getX() {
+	return subX;
 }
