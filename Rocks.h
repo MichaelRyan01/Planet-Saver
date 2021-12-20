@@ -15,13 +15,15 @@ public:
 	Rocks(float rockX, float rockY);
 	Sprite getSprite();
 	FloatRect getPosition();
+	float getX();
+	float getY();
 
 private:
 	float rockX = 0;
 	float rockY = 0;
 
 	Sprite r_Sprite;
-	Texture r_Texture; 
+	Texture r_Texture;
 	Vector2f r_Position;
 };
 

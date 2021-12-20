@@ -4,167 +4,175 @@
 #include "Tile.h"
 #include "Waste.h"
 #include "GameManager.h"
+#include "Shark.h"
 
 int main() {
-   TileManager holder;
+	TileManager holder;
 
-   enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
-   State state = State::PLAYING;
+	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	State state = State::PLAYING;
 
-   Vector2f resolution;
-   resolution.x = VideoMode::getDesktopMode().width;
-   resolution.y = VideoMode::getDesktopMode().height;
+	Vector2f resolution;
+	resolution.x = VideoMode::getDesktopMode().width;
+	resolution.y = VideoMode::getDesktopMode().height;
 
-   RenderWindow window(VideoMode(resolution.x, resolution.y),
-       "Planet Saver - Submarine", Style::Fullscreen);
+	RenderWindow window(VideoMode(resolution.x, resolution.y),
+		"Planet Saver - Submarine", Style::Fullscreen);
 
-   View mainView(FloatRect(0, 0, resolution.x, resolution.y));
+	View mainView(FloatRect(0, 0, resolution.x, resolution.y));
 
-   Clock clock;
+	Clock clock;
 
-   Time gameTime;
+	Time gameTime;
 
-   Vector2f mouseMapPosition;
+	Vector2f mouseMapPosition;
 
-   Vector2i mouseScreenPosition;
+	Vector2i mouseScreenPosition;
 
-   vehicle sub(0, 0);
+	// creating objects
+	vehicle sub(960, 0);
 
-   Rocks rock(500,500);
+	Rocks rock(500, 500);
 
-   Waste waste(1000,750);
+	Waste waste(1000, 750);
 
-   //Rocks rock2;
-   //Rocks rock3;
+	Shark shark(960, 1920);
 
-   IntRect map;
+	//Rocks rock2;
+	//Rocks rock3;
 
-   VertexArray background;
+	IntRect map;
 
-   Texture textureBackground = TileManager::GetTexture(
-      "graphics/background.png");
+	VertexArray background;
 
-   Sprite spriteBackground;
-   spriteBackground.setTexture(textureBackground);
-   spriteBackground.setPosition(0, 0);
+	Texture textureBackground = TileManager::GetTexture(
+		"graphics/background.png");
 
-   //While the window is open
-   while (window.isOpen()){
-	   //Closes the window
-       if (Keyboard::isKeyPressed(Keyboard::Escape)){
-           window.close();
-       }
+	Sprite spriteBackground;
+	spriteBackground.setTexture(textureBackground);
+	spriteBackground.setPosition(0, 0);
 
-	   // Where is the mouse pointer
-	   //mouseScreenPosition = Mouse::getPosition();
+	//While the window is open
+	while (window.isOpen()) {
+		//Closes the window
+		if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+			window.close();
+		}
 
-	   // Convert mouse position to world coordinates of mainView
-	   //mouseMapPosition = window.mapPixelToCoords(
-		   //Mouse::getPosition(), mainView);
+		// Where is the mouse pointer
+		//mouseScreenPosition = Mouse::getPosition();
 
-
-	   if (state == State::PLAYING) {
-		   // Handle the pressing and releasing of the WASD keys
-		   if (Keyboard::isKeyPressed(Keyboard::W)) {
-			   sub.moveUp();
-		   }
-		   else {
-			   sub.stopUp();
-		   }
-
-		   if (Keyboard::isKeyPressed(Keyboard::S)) {
-			   sub.moveDown();
-		   }
-		   else {
-			   sub.stopDown();
-		   }
-		   if (Keyboard::isKeyPressed(Keyboard::A)) {
-			   sub.moveLeft();
-		   }
-		   else {
-			   sub.stopLeft();
-		   }
-
-		   if (Keyboard::isKeyPressed(Keyboard::D)) {
-			   sub.moveRight();
-		   }
-		   else {
-			   sub.stopRight();
-		   }
-	   }
-
-	   //Updates the pixels and current state of the sub 
-	   if (state == State::PLAYING) {
-		   map.width = 500;
-		   map.height = 500;
-		   map.left = 0;
-		   map.top = 0;
-
-		   Time dt = clock.restart();
-
-		   gameTime += dt;
-
-		   float dtAsSeconds = dt.asSeconds();
-
-		   mouseScreenPosition = Mouse::getPosition();
-
-		   mouseMapPosition = window.mapPixelToCoords(
-			   Mouse::getPosition(), mainView);
-
-		   sub.update(dtAsSeconds, Mouse::getPosition());
-
-		   Vector2f subPosition(sub.getCenter());
+		// Convert mouse position to world coordinates of mainView
+		//mouseMapPosition = window.mapPixelToCoords(
+			//Mouse::getPosition(), mainView);
 
 
-		   //Collision Detection
-		   for (int i = 0; i < 100; i++) {
-			   for (int j = 0; j < 1; j++) {
-				   //if (sub.getPosition().intersects
-				   //(rock.getPosition())) {
-				   // rock.getCenter();
-					//sub.negDistanceY();
-					//sub.posDistanceX();
-					//clock.restart();
-				   //}
+		if (state == State::PLAYING) {
+			// Handle the pressing and releasing of the WASD keys
+			if (Keyboard::isKeyPressed(Keyboard::W)) {
+				sub.moveUp();
+			}
+			else {
+				sub.stopUp();
+			}
 
-				   if (sub.getPosition().intersects
-				   (rock.getPosition())) {
-					   if (sub.getX() <= rock.getX() + 10) {
-						   sub.negDistanceX();
-					   }
-					   else if (sub.getX() >= rock.getX() - 10) {
-						   sub.posDistanceX();
-					   }
-					   else if (sub.getY() <= rock.getY() + 10) {
-						   sub.negDistanceY();
-					   }
-					   else if (sub.getY() >= rock.getY() - 10) {
-						   sub.posDistanceY();
-					   }
-				   }
-			   }
-		   }
-	   }
+			if (Keyboard::isKeyPressed(Keyboard::S)) {
+				sub.moveDown();
+			}
+			else {
+				sub.stopDown();
+			}
+			if (Keyboard::isKeyPressed(Keyboard::A)) {
+				sub.moveLeft();
+			}
+			else {
+				sub.stopLeft();
+			}
 
-	   /*
-	   ********
-	   * DRAW *
-	   ********
-	   */
-	   //Draws the view in the window while in the playing state 
-	   if (state == State::PLAYING) {
-		   window.setView(mainView);
+			if (Keyboard::isKeyPressed(Keyboard::D)) {
+				sub.moveRight();
+			}
+			else {
+				sub.stopRight();
+			}
+		}
 
-		   window.draw(spriteBackground);
+		//Updates the pixels and current state of the sub 
+		if (state == State::PLAYING) {
+			map.width = 500;
+			map.height = 500;
+			map.left = 0;
+			map.top = 0;
 
-		   window.draw(rock.getSprite());
+			Time dt = clock.restart();
 
-		   window.draw(sub.getSprite());
+			gameTime += dt;
 
-		   window.draw(waste.getSprite());
+			float dtAsSeconds = dt.asSeconds();
 
-		   window.display();
-	   }
-   }
-   return 0;
+			mouseScreenPosition = Mouse::getPosition();
+
+			mouseMapPosition = window.mapPixelToCoords(
+				Mouse::getPosition(), mainView);
+
+			sub.update(dtAsSeconds, Mouse::getPosition());
+
+			shark.attack(dtAsSeconds, sub.getCenter());
+
+			Vector2f subPosition(sub.getCenter());
+
+
+			//Collision Detection
+			for (int i = 0; i < 100; i++) {
+				for (int j = 0; j < 1; j++) {
+					//if (sub.getPosition().intersects
+					//(rock.getPosition())) {
+					// rock.getCenter();
+					 //sub.negDistanceY();
+					 //sub.posDistanceX();
+					 //clock.restart();
+					//}
+
+					if (sub.getPosition().intersects
+					(rock.getPosition())) {
+						if (sub.getX() <= rock.getX() + 10) {
+							sub.negDistanceX();
+						}
+						else if (sub.getX() >= rock.getX() - 10) {
+							sub.posDistanceX();
+						}
+						else if (sub.getY() <= rock.getY() + 10) {
+							sub.negDistanceY();
+						}
+						else if (sub.getY() >= rock.getY() - 10) {
+							sub.posDistanceY();
+						}
+					}
+				}
+			}
+		}
+
+		/*
+		********
+		* DRAW *
+		********
+		*/
+		//Draws the view in the window while in the playing state 
+		if (state == State::PLAYING) {
+			window.setView(mainView);
+
+			window.draw(spriteBackground);
+
+			window.draw(rock.getSprite());
+
+			window.draw(waste.getSprite());
+
+			window.draw(shark.getSprite());
+
+			window.draw(sub.getSprite());
+
+			window.display();
+		}
+	}
+	return 0;
 }

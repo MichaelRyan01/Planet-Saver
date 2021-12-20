@@ -1,6 +1,6 @@
 #include "Rocks.h"
 
-Rocks::Rocks(float rockX, float rockY){
+Rocks::Rocks(float rockX, float rockY) {
 	r_Sprite = Sprite(TileManager::GetTexture("graphics/rock.png"));
 
 	r_Position.x = rockX;
@@ -16,4 +16,20 @@ Sprite Rocks::getSprite() {
 
 FloatRect Rocks::getPosition() {
 	return r_Sprite.getGlobalBounds();
+}
+
+float Rocks::getX()
+
+{
+
+	return rockX;
+
+}
+
+float Rocks::getY()
+
+{
+
+	return rockY;
+
 }
