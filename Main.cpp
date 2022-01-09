@@ -3,8 +3,10 @@
 #include "Rocks.h"
 #include "Tile.h"
 #include "Waste.h"
-#include "GameManager.h"
 #include "Shark.h"
+#include "TopBorder.h"
+#include "SideBorder.h"
+//#include "RightSideBorder.h"
 
 int main() {
 	TileManager holder;
@@ -30,13 +32,19 @@ int main() {
 	Vector2i mouseScreenPosition;
 
 	// creating objects
-	vehicle sub(960, 0);
+	vehicle sub(960, 500);
 
 	Rocks rock(500, 500);
 
 	Waste waste(1000, 750);
 
 	Shark shark(960, 1920);
+
+	TopBorder topBorder(0, 0);
+
+	SideBorder leftBorder(0, 0);
+
+	//RightSideBorder rightBorder(1900, 0);
 
 	//Rocks rock2;
 	//Rocks rock3;
@@ -123,34 +131,44 @@ int main() {
 
 
 			//Collision Detection
-			for (int i = 0; i < 100; i++) {
-				for (int j = 0; j < 1; j++) {
-					//if (sub.getPosition().intersects
-					//(rock.getPosition())) {
-					// rock.getCenter();
-					 //sub.negDistanceY();
-					 //sub.posDistanceX();
-					 //clock.restart();
-					//}
+			
+			//Sub and Top Border Collision
+			if (sub.getPosition().intersects
+			(topBorder.getPosition())) {
+				sub.posDistanceY();
+			}
 
-					if (sub.getPosition().intersects
-					(rock.getPosition())) {
-						if (sub.getX() <= rock.getX() + 10) {
-							sub.negDistanceX();
-						}
-						else if (sub.getX() >= rock.getX() - 10) {
-							sub.posDistanceX();
-						}
-						else if (sub.getY() <= rock.getY() + 10) {
-							sub.negDistanceY();
-						}
-						else if (sub.getY() >= rock.getY() - 10) {
-							sub.posDistanceY();
-						}
-					}
+			//Sub and Left Border Position
+			if (sub.getPosition().intersects
+			(leftBorder.getPosition())) {
+				sub.posDistanceX();
+			}
+
+			//Sub and Right Border Collisions
+			//if (sub.getPosition().intersects
+			//(rightBorder.getPosition())) {
+			//	sub.negDistanceX();
+			//}
+			
+			//Sub and Rocks Collisions
+			if (sub.getPosition().intersects
+			(rock.getPosition())) {
+				if (sub.getX() <= rock.getX() + 10) {
+					sub.posDistanceX();
+				}
+				else {
+					sub.negDistanceX();
+				}
+
+				if (sub.getY() >= rock.getY() - 10) {
+					sub.posDistanceY();
+				}
+				else {
+					sub.negDistanceY();
 				}
 			}
 		}
+			
 
 		/*
 		********
@@ -162,6 +180,12 @@ int main() {
 			window.setView(mainView);
 
 			window.draw(spriteBackground);
+
+			window.draw(topBorder.getSprite());
+
+			window.draw(leftBorder.getSprite());
+
+			//window.draw(rightBorder.getSprite());
 
 			window.draw(rock.getSprite());
 
