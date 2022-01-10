@@ -6,7 +6,6 @@
 #include "Shark.h"
 #include "TopBorder.h"
 #include "SideBorder.h"
-//#include "RightSideBorder.h"
 
 int main() {
 	TileManager holder;
@@ -31,6 +30,34 @@ int main() {
 
 	Vector2i mouseScreenPosition;
 
+	/*
+	*****************
+	* The Games Hud *
+	*****************
+	*/
+	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y));
+
+	//Font
+	Font font;
+	font.loadFromFile("fonts/komikap.ttf");
+
+	//Health bar
+	RectangleShape healthBar;
+	healthBar.setFillColor(Color::Blue);
+	healthBar.setPosition(450, 980);
+
+	//Updating the hud
+	int framesSinceLastHUDUpdate = 0;
+	int fpsMeasurementFrameInterval = 1000;
+	
+	//Waste Remaining Text
+	Text wasteRemainingText;
+	wasteRemainingText.setFont(font);
+	wasteRemainingText.setCharacterSize(55);
+	wasteRemainingText.setFillColor(Color::White);
+	wasteRemainingText.setPosition(1500, 980);
+	wasteRemainingText.setString("Waste Remaining: ");
+	
 	// creating objects
 	vehicle sub(960, 500);
 
@@ -131,7 +158,7 @@ int main() {
 
 
 			//Collision Detection
-			
+
 			//Sub and Top Border Collision
 			if (sub.getPosition().intersects
 			(topBorder.getPosition())) {
@@ -149,7 +176,7 @@ int main() {
 			//(rightBorder.getPosition())) {
 			//	sub.negDistanceX();
 			//}
-			
+
 			//Sub and Rocks Collisions
 			if (sub.getPosition().intersects
 			(rock.getPosition())) {
@@ -167,8 +194,29 @@ int main() {
 					sub.negDistanceY();
 				}
 			}
+
+			//Shark and Sub damage collision
+			if (shark.getPosition().intersects
+			(sub.getPosition())) {
+
+			}
+
+			//size up health bar
+			healthBar.setSize(Vector2f(sub.getHealth() * 3, 70));
+
+			//Increment the frames since last hud calculation
+			framesSinceLastHUDUpdate++;
+
+			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval) {
+				//Add possible scores or waste remaining bits here
+				//std::stringstream ssWaste;
+
+				//Update the Waste Text
+				//ssWaste << "Waste: " << waste;
+				//wasteRemainingText.setString(ssWaste.str());
+			}
 		}
-			
+
 
 		/*
 		********
@@ -185,7 +233,7 @@ int main() {
 
 			window.draw(leftBorder.getSprite());
 
-			//window.draw(rightBorder.getSprite());
+			window.setView(hudView);
 
 			window.draw(rock.getSprite());
 
