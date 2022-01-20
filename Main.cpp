@@ -43,8 +43,8 @@ int main() {
 
 	//Health bar
 	RectangleShape healthBar;
-	healthBar.setFillColor(Color::Blue);
-	healthBar.setPosition(450, 980);
+	healthBar.setFillColor(Color::Red);
+	healthBar.setPosition(100, 980);
 
 	//Updating the hud
 	int framesSinceLastHUDUpdate = 0;
@@ -198,7 +198,7 @@ int main() {
 			//Shark and Sub damage collision
 			if (shark.getPosition().intersects
 			(sub.getPosition())) {
-
+				sub.hit(gameTime);
 			}
 
 			//size up health bar
@@ -228,6 +228,8 @@ int main() {
 			window.setView(mainView);
 
 			window.draw(spriteBackground);
+			
+			window.draw(healthBar);
 
 			window.draw(topBorder.getSprite());
 

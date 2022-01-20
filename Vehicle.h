@@ -39,6 +39,8 @@ public:
 	float getY();
 	float getX();
 
+	bool hit(Time timeHit);
+
 	//int getDistance();
 
 private:
@@ -68,5 +70,8 @@ private:
 	int m_health;
 	int m_maxHealth;
 	float m_speed;
+	bool m_alive;
+
+	Time m_LastHit;
 };
 #endif

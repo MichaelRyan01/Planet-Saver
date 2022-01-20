@@ -18,6 +18,7 @@ vehicle::vehicle(float subX, float subY){
 		"graphics/sub.png"));
 
 	m_Sprite.setOrigin(25, 25);
+	m_Sprite.setScale(0.2f, 0.2f);
 }
 
 void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
@@ -168,4 +169,18 @@ float vehicle::getY() {
 
 float vehicle::getX() {
 	return subX;
+}
+
+bool vehicle::hit(Time timeHit)
+{
+	if (timeHit.asMilliseconds() - m_LastHit.asMilliseconds() > 2000)// 2 seconds
+	{
+		m_LastHit = timeHit;
+		m_health -= 10;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
