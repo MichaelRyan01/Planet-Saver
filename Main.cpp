@@ -43,21 +43,24 @@ int main() {
 
 	//Health bar
 	RectangleShape healthBar;
-	healthBar.setFillColor(Color::Red);
-	healthBar.setPosition(100, 980);
+	healthBar.setFillColor(Color::Green);
+	healthBar.setPosition(25, 980);
+	RectangleShape healthBarBackground;
+	healthBarBackground.setFillColor(Color::Red);
+	healthBarBackground.setPosition(25, 980);
 
 	//Updating the hud
 	int framesSinceLastHUDUpdate = 0;
 	int fpsMeasurementFrameInterval = 1000;
-	
+
 	//Waste Remaining Text
 	Text wasteRemainingText;
 	wasteRemainingText.setFont(font);
 	wasteRemainingText.setCharacterSize(55);
 	wasteRemainingText.setFillColor(Color::White);
-	wasteRemainingText.setPosition(1500, 980);
+	wasteRemainingText.setPosition(25, 25);
 	wasteRemainingText.setString("Waste Remaining: ");
-	
+
 	// creating objects
 	vehicle sub(960, 500);
 
@@ -65,7 +68,7 @@ int main() {
 
 	Waste waste(1000, 750);
 
-	Shark shark(960, 1920);
+	Shark shark(960, 1080);
 
 	TopBorder topBorder(0, 0);
 
@@ -202,7 +205,8 @@ int main() {
 			}
 
 			//size up health bar
-			healthBar.setSize(Vector2f(sub.getHealth() * 3, 70));
+			healthBar.setSize(Vector2f(sub.getHealth() * 3, 75));
+			healthBarBackground.setSize(Vector2f(300, 75));
 
 			//Increment the frames since last hud calculation
 			framesSinceLastHUDUpdate++;
@@ -228,7 +232,9 @@ int main() {
 			window.setView(mainView);
 
 			window.draw(spriteBackground);
-			
+
+			window.draw(healthBarBackground);
+
 			window.draw(healthBar);
 
 			window.draw(topBorder.getSprite());
@@ -244,6 +250,8 @@ int main() {
 			window.draw(shark.getSprite());
 
 			window.draw(sub.getSprite());
+
+			window.draw(wasteRemainingText);
 
 			window.display();
 		}
