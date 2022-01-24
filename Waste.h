@@ -12,12 +12,16 @@ class Waste
 {
 
 public:
-	Waste(float wasteX, float wasteY);
+	Waste(float wasteX, float wasteY, bool isSpawned);
 	Sprite getSprite();
+	FloatRect getPosition();
+	bool isSpawned();
+	bool clean();
 
 private:
 	float wasteX = 0;
 	float wasteY = 0;
+	bool w_Spawned;
 
 	Sprite w_Sprite;
 	Texture w_Texture;

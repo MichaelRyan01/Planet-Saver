@@ -6,7 +6,7 @@
 using namespace sf;
 using namespace std;
 
-vehicle::vehicle(float subX, float subY){
+vehicle::vehicle(float subX, float subY) {
 	m_Position.x = subX;
 	m_Position.y = subY;
 
@@ -56,53 +56,53 @@ int vehicle::getHealth() {
 	return m_health;
 }
 
-void vehicle::moveLeft(){
+void vehicle::moveLeft() {
 	m_LeftPressed = true;
 }
 
-void vehicle::moveRight(){
+void vehicle::moveRight() {
 	m_RightPressed = true;
 }
 
-void vehicle::moveUp(){
+void vehicle::moveUp() {
 	m_UpPressed = true;
 }
 
-void vehicle::moveDown(){
+void vehicle::moveDown() {
 	m_DownPressed = true;
 }
 
-void vehicle::stopLeft(){
+void vehicle::stopLeft() {
 	m_LeftPressed = false;
 }
 
-void vehicle::stopRight(){
+void vehicle::stopRight() {
 	m_RightPressed = false;
 }
 
-void vehicle::stopUp(){
+void vehicle::stopUp() {
 	m_UpPressed = false;
 }
 
-void vehicle::stopDown(){
+void vehicle::stopDown() {
 	m_DownPressed = false;
 }
 
-void vehicle::update(float elapsedTime, Vector2i mousePosition){
+void vehicle::update(float elapsedTime, Vector2i mousePosition) {
 
-	if (m_UpPressed){
+	if (m_UpPressed) {
 		m_Position.y -= m_speed * elapsedTime;
 	}
 
-	if (m_DownPressed){
+	if (m_DownPressed) {
 		m_Position.y += m_speed * elapsedTime;
 	}
 
-	if (m_RightPressed){
+	if (m_RightPressed) {
 		m_Position.x += m_speed * elapsedTime;
 	}
 
-	if (m_LeftPressed){
+	if (m_LeftPressed) {
 		m_Position.x -= m_speed * elapsedTime;
 	}
 
@@ -111,19 +111,19 @@ void vehicle::update(float elapsedTime, Vector2i mousePosition){
 
 
 	// Keep the sub in the arena
-	if (m_Position.x > m_Map.width - m_TileSize){
+	if (m_Position.x > m_Map.width - m_TileSize) {
 		m_Position.x = m_Map.width - m_TileSize;
 	}
 
-	if (m_Position.x < m_Map.left + m_TileSize){
+	if (m_Position.x < m_Map.left + m_TileSize) {
 		m_Position.x = m_Map.left + m_TileSize;
 	}
 
-	if (m_Position.y > m_Map.height - m_TileSize){
+	if (m_Position.y > m_Map.height - m_TileSize) {
 		m_Position.y = m_Map.height - m_TileSize;
 	}
 
-	if (m_Position.y < m_Map.top + m_TileSize){
+	if (m_Position.y < m_Map.top + m_TileSize) {
 		m_Position.y = m_Map.top + m_TileSize;
 	}
 
@@ -134,13 +134,13 @@ void vehicle::update(float elapsedTime, Vector2i mousePosition){
 	m_Sprite.setRotation(angle);
 }
 
-void vehicle::boost(int boost) {
-	boost = .5;
-	m_speed += (START_SPEED + boost);
+void vehicle::boost() {
+	int boostValue = 5;
+	m_speed = m_speed + boostValue;
 }
 
 int vehicle::negDistanceX() {
-	float newX = m_Position.x --;
+	float newX = m_Position.x--;
 
 	return newX;
 }

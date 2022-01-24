@@ -30,6 +30,10 @@ int main() {
 
 	Vector2i mouseScreenPosition;
 
+	// waste variables for submarine game
+	int numOfWaste;
+	int wasteRemaining = 1;
+
 	/*
 	*****************
 	* The Games Hud *
@@ -66,7 +70,7 @@ int main() {
 
 	Rocks rock(500, 500);
 
-	Waste waste(1000, 750);
+	Waste waste(1000, 750, true);
 
 	Shark shark(960, 1080);
 
@@ -132,6 +136,10 @@ int main() {
 			}
 			else {
 				sub.stopRight();
+			}
+
+			if (Keyboard::isKeyPressed(Keyboard::X)) {
+				sub.boost();
 			}
 		}
 
@@ -204,6 +212,16 @@ int main() {
 				sub.hit(gameTime);
 			}
 
+			// waste removal
+			if (sub.getPosition().intersects(waste.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space))
+
+			{
+
+				waste.clean();
+				wasteRemaining--;
+
+			}
+
 			//size up health bar
 			healthBar.setSize(Vector2f(sub.getHealth() * 3, 75));
 			healthBarBackground.setSize(Vector2f(300, 75));
@@ -245,7 +263,13 @@ int main() {
 
 			window.draw(rock.getSprite());
 
-			window.draw(waste.getSprite());
+			if (waste.isSpawned())
+
+			{
+
+				window.draw(waste.getSprite());
+
+			}
 
 			window.draw(shark.getSprite());
 

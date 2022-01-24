@@ -9,7 +9,7 @@ using namespace std;
 
 class vehicle
 {
-public: 
+public:
 	vehicle(float subX, float subY);
 	void spawn(IntRect map, Vector2f resolution, int tileSize);
 	FloatRect getPosition();
@@ -29,7 +29,7 @@ public:
 	void stopDown();
 
 	void update(float elapsedTime, Vector2i mousePosition);
-	void boost(int boost);
+	void boost();
 
 	int negDistanceX();
 	int posDistanceX();
@@ -53,13 +53,13 @@ private:
 	Vector2f m_Position;
 
 	Sprite m_Sprite;
-	
+
 	Texture m_Texture;
 
 	Vector2f m_Resolution;
 
 	IntRect m_Map;
-	
+
 	int m_TileSize;
 
 	bool m_UpPressed;
