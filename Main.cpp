@@ -1,11 +1,11 @@
 #include "TileManager.h"
 #include "Vehicle.h"
 #include "Rocks.h"
-#include "Tile.h"
 #include "Waste.h"
 #include "Shark.h"
 #include "TopBorder.h"
 #include "SideBorder.h"
+#include <sstream>
 
 int main() {
 	TileManager holder;
@@ -25,10 +25,6 @@ int main() {
 	Clock clock;
 
 	Time gameTime;
-
-	Vector2f mouseMapPosition;
-
-	Vector2i mouseScreenPosition;
 
 	// waste variables for submarine game
 	int numOfWaste;
@@ -60,10 +56,10 @@ int main() {
 	//Waste Remaining Text
 	Text wasteRemainingText;
 	wasteRemainingText.setFont(font);
-	wasteRemainingText.setCharacterSize(55);
+	wasteRemainingText.setCharacterSize(70);
 	wasteRemainingText.setFillColor(Color::White);
-	wasteRemainingText.setPosition(25, 25);
-	wasteRemainingText.setString("Waste Remaining: ");
+	wasteRemainingText.setPosition(400, 975);
+	wasteRemainingText.setString("Waste Remaining: " + wasteRemaining);
 
 	// creating objects
 	vehicle sub(960, 500);
@@ -77,6 +73,8 @@ int main() {
 	TopBorder topBorder(0, 0);
 
 	SideBorder leftBorder(0, 0);
+
+	SideBorder rightBorder(100, 100);
 
 	//RightSideBorder rightBorder(1900, 0);
 
@@ -101,50 +99,13 @@ int main() {
 			window.close();
 		}
 
-		// Where is the mouse pointer
-		//mouseScreenPosition = Mouse::getPosition();
-
-		// Convert mouse position to world coordinates of mainView
-		//mouseMapPosition = window.mapPixelToCoords(
-			//Mouse::getPosition(), mainView);
-
-
-		if (state == State::PLAYING) {
-			// Handle the pressing and releasing of the WASD keys
-			if (Keyboard::isKeyPressed(Keyboard::W)) {
-				sub.moveUp();
-			}
-			else {
-				sub.stopUp();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::S)) {
-				sub.moveDown();
-			}
-			else {
-				sub.stopDown();
-			}
-			if (Keyboard::isKeyPressed(Keyboard::A)) {
-				sub.moveLeft();
-			}
-			else {
-				sub.stopLeft();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::D)) {
-				sub.moveRight();
-			}
-			else {
-				sub.stopRight();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::X)) {
-				sub.boost();
-			}
-		}
-
 		//Updates the pixels and current state of the sub 
-		if (state == State::PLAYING) {
+		if (state == State::PLAYING) 
+		
+		{
+			
+			sub.movement();
+
 			map.width = 500;
 			map.height = 500;
 			map.left = 0;
@@ -156,17 +117,11 @@ int main() {
 
 			float dtAsSeconds = dt.asSeconds();
 
-			mouseScreenPosition = Mouse::getPosition();
-
-			mouseMapPosition = window.mapPixelToCoords(
-				Mouse::getPosition(), mainView);
-
-			sub.update(dtAsSeconds, Mouse::getPosition());
+			sub.update(dtAsSeconds);
 
 			shark.attack(dtAsSeconds, sub.getCenter());
 
 			Vector2f subPosition(sub.getCenter());
-
 
 			//Collision Detection
 
@@ -213,7 +168,7 @@ int main() {
 			}
 
 			// waste removal
-			if (sub.getPosition().intersects(waste.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space))
+			if (sub.getPosition().intersects(waste.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && waste.isSpawned())
 
 			{
 
@@ -229,14 +184,41 @@ int main() {
 			//Increment the frames since last hud calculation
 			framesSinceLastHUDUpdate++;
 
-			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval) {
+			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval) 
+			
+			{
 				//Add possible scores or waste remaining bits here
 				//std::stringstream ssWaste;
+				std::stringstream ssWaste;
 
-				//Update the Waste Text
-				//ssWaste << "Waste: " << waste;
-				//wasteRemainingText.setString(ssWaste.str());
+				//Update waste text
+				ssWaste << "Waste Remaining: " << wasteRemaining;
+				wasteRemainingText.setString(ssWaste.str());
+
 			}
+
+			if (sub.getHealth() == 0)
+
+			{
+
+				state = State::GAME_OVER;
+
+			}
+
+		}
+
+		if (state == State::GAME_OVER)
+
+		{
+
+			if (Keyboard::isKeyPressed(Keyboard::R))
+
+			{
+
+				state = State::PLAYING;
+
+			}
+
 		}
 
 
@@ -246,7 +228,9 @@ int main() {
 		********
 		*/
 		//Draws the view in the window while in the playing state 
-		if (state == State::PLAYING) {
+		if (state == State::PLAYING) 
+		
+		{
 			window.setView(mainView);
 
 			window.draw(spriteBackground);
@@ -258,6 +242,8 @@ int main() {
 			window.draw(topBorder.getSprite());
 
 			window.draw(leftBorder.getSprite());
+
+			window.draw(rightBorder.getSprite());
 
 			window.setView(hudView);
 
@@ -279,6 +265,36 @@ int main() {
 
 			window.display();
 		}
+
+		if (state == State::GAME_OVER)
+
+		{
+
+			window.setView(mainView);
+
+			window.draw(spriteBackground);
+
+			Text gameOverText1;
+			gameOverText1.setFont(font);
+			gameOverText1.setCharacterSize(100);
+			gameOverText1.setFillColor(Color::Red);
+			gameOverText1.setPosition(700, 500);
+			gameOverText1.setString("Game Over!");
+
+			Text gameOverText2;
+			gameOverText2.setFont(font);
+			gameOverText2.setCharacterSize(50);
+			gameOverText2.setFillColor(Color::White);
+			gameOverText2.setPosition(400, 600);
+			gameOverText2.setString("Press R to restart or ESC to exit game.");
+
+			window.draw(gameOverText1);
+			window.draw(gameOverText2);
+
+			window.display();
+
+		}
 	}
+	
 	return 0;
 }

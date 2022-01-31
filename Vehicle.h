@@ -28,7 +28,7 @@ public:
 	void stopUp();
 	void stopDown();
 
-	void update(float elapsedTime, Vector2i mousePosition);
+	void update(float elapsedTime);
 	void boost();
 
 	int negDistanceX();
@@ -40,6 +40,8 @@ public:
 	float getX();
 
 	bool hit(Time timeHit);
+
+	void movement();
 
 	//int getDistance();
 

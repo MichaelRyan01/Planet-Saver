@@ -7,13 +7,16 @@ Shark::Shark(float sharkX, float sharkY)
 {
 
 	s_Sprite = Sprite(TileManager::GetTexture("graphics/sharkspritesheet.png"));
+	s_Sprite.setTextureRect(sf::IntRect{ 0, 0, 300, 500 });
 	
 	s_Position.x = sharkX;
 	s_Position.y = sharkY;
 	
-	s_Sprite.setScale(0.1, 0.1);
+	s_Sprite.setScale(0.2, 0.2);
 	s_Sprite.setOrigin(150, 250);
 	s_Sprite.setPosition(s_Position);
+
+
 
 }
 
@@ -63,7 +66,7 @@ void Shark::attack(float elapsedTime, Vector2f subLocation)
 	s_Sprite.setPosition(s_Position);
 
 	// Face the sprite in the correct direction
-	float angle = (atan2(playerY - s_Position.y, playerX - s_Position.x) * 180) / 3.141;
+	float angle = (atan2(playerY - s_Position.y, playerX - s_Position.x) * 180) / 3.141 + 90;
 
 	s_Sprite.setRotation(angle);
 

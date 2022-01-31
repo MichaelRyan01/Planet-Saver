@@ -88,7 +88,7 @@ void vehicle::stopDown() {
 	m_DownPressed = false;
 }
 
-void vehicle::update(float elapsedTime, Vector2i mousePosition) {
+void vehicle::update(float elapsedTime) {
 
 	if (m_UpPressed) {
 		m_Position.y -= m_speed * elapsedTime;
@@ -127,11 +127,6 @@ void vehicle::update(float elapsedTime, Vector2i mousePosition) {
 		m_Position.y = m_Map.top + m_TileSize;
 	}
 
-	float angle = (atan2(mousePosition.y - m_Resolution.y / 2,
-		mousePosition.x - m_Resolution.x / 2)
-		* 180) / 3.141;
-
-	m_Sprite.setRotation(angle);
 }
 
 void vehicle::boost() {
@@ -183,4 +178,121 @@ bool vehicle::hit(Time timeHit)
 	{
 		return false;
 	}
+}
+
+void vehicle::movement() 
+
+{
+
+	if (Keyboard::isKeyPressed(Keyboard::W) || (Keyboard::isKeyPressed(Keyboard::Up)))
+
+	{
+
+		moveUp();
+		m_Sprite.setRotation(0.f);
+
+	}
+	
+	else 
+	
+	{
+	
+		stopUp();
+	
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::S) || (Keyboard::isKeyPressed(Keyboard::Down)))
+	
+	{
+	
+		moveDown();
+		m_Sprite.setRotation(180.f);
+	
+	}
+	
+	else 
+	
+	{
+	
+		stopDown();
+	
+	}
+	
+	if (Keyboard::isKeyPressed(Keyboard::A) || (Keyboard::isKeyPressed(Keyboard::Left)))
+	
+	{
+	
+		moveLeft();
+		m_Sprite.setRotation(270.f);
+	
+	}
+	
+	else 
+	
+	{
+	
+		stopLeft();
+	
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::D) || (Keyboard::isKeyPressed(Keyboard::Right)))
+	
+	{
+	
+		moveRight();
+		m_Sprite.setRotation(90.f);
+	
+	}
+	
+	else 
+	
+	{
+	
+		stopRight();
+	
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::W) && (Keyboard::isKeyPressed(Keyboard::D)) || Keyboard::isKeyPressed(Keyboard::Up) && (Keyboard::isKeyPressed(Keyboard::Right)))
+
+	{
+
+
+		m_Sprite.setRotation(45.f);
+
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::D) && (Keyboard::isKeyPressed(Keyboard::S)) || Keyboard::isKeyPressed(Keyboard::Right) && (Keyboard::isKeyPressed(Keyboard::Down)))
+
+	{
+
+		m_Sprite.setRotation(135.f);
+		
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::S) && (Keyboard::isKeyPressed(Keyboard::A)) || Keyboard::isKeyPressed(Keyboard::Down) && (Keyboard::isKeyPressed(Keyboard::Left)))
+
+	{
+
+
+		m_Sprite.setRotation(225.f);
+
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::A) && (Keyboard::isKeyPressed(Keyboard::W)) || Keyboard::isKeyPressed(Keyboard::Left) && (Keyboard::isKeyPressed(Keyboard::Up)))
+
+	{
+
+
+		m_Sprite.setRotation(315.f);
+
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::LShift) || (Keyboard::isKeyPressed(Keyboard::RShift)))
+	
+	{
+	
+		boost();
+	
+	}
+
 }
