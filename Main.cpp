@@ -10,8 +10,8 @@
 int main() {
 	TileManager holder;
 
-	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
-	State state = State::PLAYING;
+	enum class State { PAUSED, LEVELING_UP, ABOUT, GAME_OVER, MENU, PLAYING };
+	State state = State::MENU;
 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width;
@@ -61,6 +61,53 @@ int main() {
 	wasteRemainingText.setPosition(400, 975);
 	wasteRemainingText.setString("Waste Remaining: " + wasteRemaining);
 
+	///code by tommy
+
+	// For the home/game over screen
+	Sprite spriteGameOver;
+	Texture textureGameOver = TileManager::GetTexture("graphics/MainMenu.png");
+	spriteGameOver.setTexture(textureGameOver);
+	spriteGameOver.setPosition(0, 0);
+
+	// About
+	Text aboutText;
+	aboutText.setFont(font);
+	aboutText.setCharacterSize(55);
+	aboutText.setFillColor(Color::White);
+	aboutText.setPosition(500, 200);
+
+	std::stringstream AboutStream;
+	AboutStream <<
+		"How to Play" <<
+		"\nClean the oil spills" <<
+		"\nAvoid the Sharks!!" <<
+		"\nW = Move Up" <<
+		"\nA = Move Left" <<
+		"\nS = Move Down" <<
+		"\nD = Move Right" <<
+		"\nX = Boost" <<
+
+		"\nR = Back to Menu";
+	aboutText.setString(AboutStream.str());
+
+	// Menu
+	Text menuText;
+	menuText.setFont(font);
+	menuText.setCharacterSize(110);
+	menuText.setFillColor(Color::White);
+	menuText.setPosition(170, 330);
+
+
+	std::stringstream MenuStream;
+	MenuStream <<
+		"1- Play" <<
+		"\n2- How to Play" <<
+		"\n3- Scores" <<
+		"\n4- Quit"
+		;
+	menuText.setString(MenuStream.str());
+
+
 	// creating objects
 	vehicle sub(960, 500);
 
@@ -100,10 +147,10 @@ int main() {
 		}
 
 		//Updates the pixels and current state of the sub 
-		if (state == State::PLAYING) 
-		
+		if (state == State::PLAYING)
+
 		{
-			
+
 			sub.movement();
 
 			map.width = 500;
@@ -184,8 +231,8 @@ int main() {
 			//Increment the frames since last hud calculation
 			framesSinceLastHUDUpdate++;
 
-			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval) 
-			
+			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval)
+
 			{
 				//Add possible scores or waste remaining bits here
 				//std::stringstream ssWaste;
@@ -221,6 +268,32 @@ int main() {
 
 		}
 
+		// Return to menu (Tommy)
+		if (Keyboard::isKeyPressed(Keyboard::R) &&
+			state == State::ABOUT)
+		{
+			state = State::MENU;
+		}
+		// Handles picking play (Tommy)
+		if (Keyboard::isKeyPressed(Keyboard::Num1) &&
+			state == State::MENU)
+		{
+			state = State::PLAYING;
+		}
+
+		// Handles picking about (Tommy)
+		if (Keyboard::isKeyPressed(Keyboard::Num2) &&
+			state == State::MENU)
+		{
+			state = State::ABOUT;
+		}
+
+		// Handles picking about (Tommy)
+		if (Keyboard::isKeyPressed(Keyboard::Num4) &&
+			state == State::MENU)
+		{
+			window.close();
+		}
 
 		/*
 		********
@@ -228,8 +301,8 @@ int main() {
 		********
 		*/
 		//Draws the view in the window while in the playing state 
-		if (state == State::PLAYING) 
-		
+		if (state == State::PLAYING)
+
 		{
 			window.setView(mainView);
 
@@ -294,7 +367,31 @@ int main() {
 			window.display();
 
 		}
+
+		if (state == State::MENU) {
+			window.setView(mainView);
+
+			window.draw(spriteGameOver);
+
+			window.draw(menuText);
+
+
+			window.display();
+		}
+
+		if (state == State::ABOUT) {
+
+			window.setView(mainView);
+
+			window.draw(spriteGameOver);
+
+			window.draw(aboutText);
+
+
+			window.display();
+		}
+
 	}
-	
+
 	return 0;
 }
