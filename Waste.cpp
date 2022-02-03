@@ -14,7 +14,7 @@ Waste::Waste(float wasteX, float wasteY, bool isSpawned)
 
 }
 
-Sprite Waste::getSprite() 
+Sprite Waste::getSprite()
 
 {
 
@@ -44,5 +44,13 @@ bool Waste::clean()
 
 	w_Spawned = false;
 	return w_Spawned;
+
+}
+
+void Waste::respawnWaste()
+
+{
+
+	w_Spawned = true;
 
 }

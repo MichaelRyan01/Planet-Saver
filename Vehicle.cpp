@@ -129,9 +129,16 @@ void vehicle::update(float elapsedTime) {
 
 }
 
-void vehicle::boost() {
-	int boostValue = 5;
-	m_speed = m_speed + boostValue;
+void vehicle::boost(Time boostingTime) {
+	m_boostLive = BOOST_LIVE_TIME;
+	m_waitTime = BOOST_WAIT_TIME;
+	
+	boostingTime.asMilliseconds() - boostTime.asMilliseconds() > 5000;// 5 seconds
+	{
+		int boostValue = 5;
+		m_speed = m_speed + boostValue;
+		
+	}
 }
 
 int vehicle::negDistanceX() {
@@ -180,7 +187,7 @@ bool vehicle::hit(Time timeHit)
 	}
 }
 
-void vehicle::movement() 
+void vehicle::movement()
 
 {
 
@@ -192,64 +199,64 @@ void vehicle::movement()
 		m_Sprite.setRotation(0.f);
 
 	}
-	
-	else 
-	
+
+	else
+
 	{
-	
+
 		stopUp();
-	
+
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::S) || (Keyboard::isKeyPressed(Keyboard::Down)))
-	
+
 	{
-	
+
 		moveDown();
 		m_Sprite.setRotation(180.f);
-	
+
 	}
-	
-	else 
-	
+
+	else
+
 	{
-	
+
 		stopDown();
-	
+
 	}
-	
+
 	if (Keyboard::isKeyPressed(Keyboard::A) || (Keyboard::isKeyPressed(Keyboard::Left)))
-	
+
 	{
-	
+
 		moveLeft();
 		m_Sprite.setRotation(270.f);
-	
+
 	}
-	
-	else 
-	
+
+	else
+
 	{
-	
+
 		stopLeft();
-	
+
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D) || (Keyboard::isKeyPressed(Keyboard::Right)))
-	
+
 	{
-	
+
 		moveRight();
 		m_Sprite.setRotation(90.f);
-	
+
 	}
-	
-	else 
-	
+
+	else
+
 	{
-	
+
 		stopRight();
-	
+
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::W) && (Keyboard::isKeyPressed(Keyboard::D)) || Keyboard::isKeyPressed(Keyboard::Up) && (Keyboard::isKeyPressed(Keyboard::Right)))
@@ -266,7 +273,7 @@ void vehicle::movement()
 	{
 
 		m_Sprite.setRotation(135.f);
-		
+
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::S) && (Keyboard::isKeyPressed(Keyboard::A)) || Keyboard::isKeyPressed(Keyboard::Down) && (Keyboard::isKeyPressed(Keyboard::Left)))
@@ -288,11 +295,17 @@ void vehicle::movement()
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::LShift) || (Keyboard::isKeyPressed(Keyboard::RShift)))
-	
-	{
-	
-		boost();
-	
-	}
 
+	{
+
+		boost(boostTime);
+
+	}
+}
+
+void vehicle::resetVehicleStats() 
+{
+	m_speed = START_SPEED;
+	m_health = START_HEALTH;
+	m_maxHealth = START_HEALTH;
 }

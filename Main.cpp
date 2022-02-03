@@ -152,6 +152,21 @@ int main() {
 		{
 
 			sub.movement();
+			//Sub and Rocks Collisions
+			if (sub.getPosition().intersects(rock.getPosition())) {
+				if (Keyboard::isKeyPressed(Keyboard::W)) {
+					sub.stopUp();
+				}
+				else if (Keyboard::isKeyPressed(Keyboard::A)) {
+					sub.stopLeft();
+				}
+				else if (Keyboard::isKeyPressed(Keyboard::D)) {
+					sub.stopRight();
+				}
+				else if (Keyboard::isKeyPressed(Keyboard::S)) {
+					sub.stopDown();
+				}
+			}
 
 			map.width = 500;
 			map.height = 500;
@@ -189,24 +204,7 @@ int main() {
 			//(rightBorder.getPosition())) {
 			//	sub.negDistanceX();
 			//}
-
-			//Sub and Rocks Collisions
-			if (sub.getPosition().intersects
-			(rock.getPosition())) {
-				if (sub.getX() <= rock.getX() + 10) {
-					sub.posDistanceX();
-				}
-				else {
-					sub.negDistanceX();
-				}
-
-				if (sub.getY() >= rock.getY() - 10) {
-					sub.posDistanceY();
-				}
-				else {
-					sub.negDistanceY();
-				}
-			}
+			
 
 			//Shark and Sub damage collision
 			if (shark.getPosition().intersects
@@ -254,19 +252,14 @@ int main() {
 
 		}
 
-		if (state == State::GAME_OVER)
-
+		if (Keyboard::isKeyPressed(Keyboard::R) && state == State::GAME_OVER)
 		{
-
-			if (Keyboard::isKeyPressed(Keyboard::R))
-
-			{
-
-				state = State::PLAYING;
-
-			}
-
+			state = State::PLAYING;
+			waste.respawnWaste();
+			sub.resetVehicleStats();
+			wasteRemaining = 1;
 		}
+
 
 		// Return to menu (Tommy)
 		if (Keyboard::isKeyPressed(Keyboard::R) &&

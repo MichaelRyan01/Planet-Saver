@@ -17,6 +17,7 @@ public:
 	FloatRect getPosition();
 	bool isSpawned();
 	bool clean();
+	void respawnWaste();
 
 private:
 	float wasteX = 0;

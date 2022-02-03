@@ -29,7 +29,7 @@ public:
 	void stopDown();
 
 	void update(float elapsedTime);
-	void boost();
+	void boost(Time boostingTime);
 
 	int negDistanceX();
 	int posDistanceX();
@@ -43,11 +43,20 @@ public:
 
 	void movement();
 
+	void resetVehicleStats();
+
 	//int getDistance();
 
 private:
 	const float START_SPEED = 200;
 	const float START_HEALTH = 100;
+
+	const int BOOST_WAIT_TIME = 5;
+	const int BOOST_LIVE_TIME = 5;
+
+	int m_waitTime;
+	int m_boostLive;
+	Time boostTime;
 
 	float subX = 0;
 	float subY = 0;
