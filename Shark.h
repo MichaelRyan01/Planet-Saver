@@ -16,6 +16,7 @@ public:
 	void attack(float elapsedTime, Vector2f subLocation);
 	Sprite getSprite();
 	FloatRect getPosition();
+	void setPosition(float sharkX, float sharkY);
 
 private:
 	float sharkX = 0;

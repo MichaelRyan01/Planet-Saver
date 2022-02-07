@@ -7,8 +7,9 @@ Shark::Shark(float sharkX, float sharkY)
 {
 
 	s_Sprite = Sprite(TileManager::GetTexture("graphics/sharkspritesheet.png"));
-	s_Sprite.setTextureRect(sf::IntRect{ 0, 0, 300, 500 });
-	
+	sf::IntRect sharkUpdate(0, 0, 300, 500);
+	s_Sprite.setTextureRect(sharkUpdate);
+
 	s_Position.x = sharkX;
 	s_Position.y = sharkY;
 	
@@ -85,5 +86,14 @@ FloatRect Shark::getPosition()
 {
 	
 	return s_Sprite.getGlobalBounds();
+
+}
+
+void Shark::setPosition(float sharkX, float sharkY)
+
+{
+	
+	s_Position.x = sharkX;
+	s_Position.y = sharkY;
 
 }

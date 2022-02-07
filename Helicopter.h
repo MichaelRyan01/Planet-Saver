@@ -1,22 +1,21 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 #include <string>
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#ifndef HELICOPTER_H
+#define HELICOPTER_H
 
 using namespace sf;
 using namespace std;
 
-class vehicle
+class Helicopter
 {
 public:
-	vehicle(float subX, float subY);
+	Helicopter(float heliX, float heliY);
 	void spawn(IntRect map, Vector2f resolution, int tileSize);
 	FloatRect getPosition();
 	Vector2f getCenter();
 	float getRotation();
 	Sprite getSprite();
-	int getHealth();
 
 	void moveLeft();
 	void moveRight();
@@ -29,7 +28,6 @@ public:
 	void stopDown();
 
 	void update(float elapsedTime);
-	void boost(Time boostingTime);
 
 	int negDistanceX();
 	int posDistanceX();
@@ -39,27 +37,20 @@ public:
 	float getY();
 	float getX();
 
-	bool hit(Time timeHit);
-
 	void movement();
 
 	void resetVehicleStats();
+
+	int maxWater = 5;
+	int currentWater = 5;
 
 	//int getDistance();
 
 private:
 	const float START_SPEED = 200;
-	const float START_HEALTH = 100;
 
-	const int BOOST_WAIT_TIME = 10;
-	const int BOOST_LIVE_TIME = 5;
-
-	int m_waitTime;
-	int m_boostLive;
-	Time boostTime;
-
-	float subX = 0;
-	float subY = 0;
+	float heliX = 0;
+	float heliY = 0;
 
 	Vector2f m_Position;
 
@@ -78,10 +69,7 @@ private:
 	bool m_LeftPressed;
 	bool m_RightPressed;
 
-	int m_health;
-	int m_maxHealth;
 	float m_speed;
-	bool m_alive;
 
 	Time m_LastHit;
 };

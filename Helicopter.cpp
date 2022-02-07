@@ -1,27 +1,33 @@
 #include <SFML/Graphics.hpp>
-#include "Vehicle.h"
+#include "Helicopter.h"
 #include "TileManager.h"
 #include <iostream>
 
 using namespace sf;
 using namespace std;
 
-vehicle::vehicle(float subX, float subY) {
-	m_Position.x = subX;
-	m_Position.y = subY;
+Helicopter::Helicopter(float heliX, float heliY) 
+
+{
+	
+	m_Position.x = heliX;
+	m_Position.y = heliY;
 
 	m_speed = START_SPEED;
-	m_health = START_HEALTH;
-	m_maxHealth = START_HEALTH;
 
-	m_Sprite = Sprite(TileManager::GetTexture(
-		"graphics/sub.png"));
+	m_Sprite = Sprite(TileManager::GetTexture("graphics/Heli.png"));
+	sf::IntRect heliUpdate(0, 0, 200, 244);
+	m_Sprite.setTextureRect(heliUpdate);
 
-	m_Sprite.setOrigin(90, 202);
-	m_Sprite.setScale(0.2f, 0.2f);
+	m_Sprite.setOrigin(100, 122);
+	m_Sprite.setScale(0.4f, 0.4f);
+
 }
 
-void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
+void Helicopter::spawn(IntRect map, Vector2f resolution, int tileSize) 
+
+{
+	
 	m_Position.x = map.width / 2;
 	m_Position.y = map.height / 2;
 
@@ -34,76 +40,140 @@ void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
 
 	m_Resolution.x = resolution.x;
 	m_Resolution.y = resolution.y;
+
 }
 
-FloatRect vehicle::getPosition() {
+FloatRect Helicopter::getPosition() 
+
+{
+
 	return m_Sprite.getGlobalBounds();
+
 }
 
-Vector2f vehicle::getCenter() {
+Vector2f Helicopter::getCenter() 
+
+{
+
 	return m_Position;
+
 }
 
-float vehicle::getRotation() {
+float Helicopter::getRotation() 
+
+{
+
 	return m_Sprite.getRotation();
+
 }
 
-Sprite vehicle::getSprite() {
+Sprite Helicopter::getSprite() 
+
+{
+
 	return m_Sprite;
+
 }
 
-int vehicle::getHealth() {
-	return m_health;
-}
 
-void vehicle::moveLeft() {
+void Helicopter::moveLeft() 
+
+{
+
 	m_LeftPressed = true;
+
 }
 
-void vehicle::moveRight() {
+void Helicopter::moveRight()
+
+{
+
 	m_RightPressed = true;
+
 }
 
-void vehicle::moveUp() {
+void Helicopter::moveUp()
+
+{
+
 	m_UpPressed = true;
+
 }
 
-void vehicle::moveDown() {
+void Helicopter::moveDown()
+
+{
+
 	m_DownPressed = true;
+
 }
 
-void vehicle::stopLeft() {
+void Helicopter::stopLeft()
+
+{
+
 	m_LeftPressed = false;
+
 }
 
-void vehicle::stopRight() {
+void Helicopter::stopRight()
+
+{
+
 	m_RightPressed = false;
+
 }
 
-void vehicle::stopUp() {
+void Helicopter::stopUp()
+
+{
+
 	m_UpPressed = false;
+
 }
 
-void vehicle::stopDown() {
+void Helicopter::stopDown()
+
+{
+
 	m_DownPressed = false;
+
 }
 
-void vehicle::update(float elapsedTime) {
+void Helicopter::update(float elapsedTime)
 
-	if (m_UpPressed) {
+{
+
+	if (m_UpPressed) 
+	
+	{
+		
 		m_Position.y -= m_speed * elapsedTime;
+	
 	}
 
-	if (m_DownPressed) {
+	if (m_DownPressed) 
+	
+	{
+	
 		m_Position.y += m_speed * elapsedTime;
+	
 	}
 
-	if (m_RightPressed) {
+	if (m_RightPressed)
+	
+	{
+	
 		m_Position.x += m_speed * elapsedTime;
+	
 	}
 
-	if (m_LeftPressed) {
+	if (m_LeftPressed) 
+	
+	{
+	
 		m_Position.x -= m_speed * elapsedTime;
+	
 	}
 
 	m_Sprite.setPosition(m_Position);
@@ -129,65 +199,59 @@ void vehicle::update(float elapsedTime) {
 
 }
 
-void vehicle::boost(Time boostingTime) {
-	m_boostLive = BOOST_LIVE_TIME;
-	m_waitTime = BOOST_WAIT_TIME;
-	
-	boostingTime.asMilliseconds() - boostTime.asMilliseconds() > 5000;// 5 seconds
-	{
-		int boostValue = 5;
-		m_speed = m_speed + boostValue;
-		
-	}
-}
+int Helicopter::negDistanceX() 
 
-int vehicle::negDistanceX() {
-	float newX = m_Position.x--;
-
-	return newX;
-}
-
-int vehicle::posDistanceX() {
-	float newX = m_Position.x++;
-
-	return newX;
-}
-
-int vehicle::negDistanceY() {
-	float newY = m_Position.y--;
-
-	return newY;
-}
-
-int vehicle::posDistanceY() {
-	float newY = m_Position.y++;
-
-	return newY;
-}
-
-float vehicle::getY() {
-	return subY;
-}
-
-float vehicle::getX() {
-	return subX;
-}
-
-bool vehicle::hit(Time timeHit)
 {
-	if (timeHit.asMilliseconds() - m_LastHit.asMilliseconds() > 2000)// 2 seconds
-	{
-		m_LastHit = timeHit;
-		m_health -= 10;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	
+	float newX = m_Position.x--;
+	return newX;
+
 }
 
-void vehicle::movement()
+int Helicopter::posDistanceX()
+
+{
+	
+	float newX = m_Position.x++;
+	return newX;
+
+}
+
+int Helicopter::negDistanceY() 
+
+{
+	
+	float newY = m_Position.y--;
+	return newY;
+
+}
+
+int Helicopter::posDistanceY()
+
+{
+	
+	float newY = m_Position.y++;
+	return newY;
+
+}
+
+float Helicopter::getY()
+
+{
+
+	return heliY;
+
+}
+
+float Helicopter::getX()
+
+{
+
+	return heliX;
+
+}
+
+void Helicopter::movement()
 
 {
 
@@ -294,18 +358,14 @@ void vehicle::movement()
 
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::LShift) || (Keyboard::isKeyPressed(Keyboard::RShift)))
-
-	{
-
-		boost(boostTime);
-
-	}
 }
 
-void vehicle::resetVehicleStats() 
+void Helicopter::resetVehicleStats()
+
 {
+	
 	m_speed = START_SPEED;
-	m_health = START_HEALTH;
-	m_maxHealth = START_HEALTH;
+	maxWater = 5;
+	currentWater = 5;
+
 }
