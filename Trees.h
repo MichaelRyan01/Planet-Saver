@@ -18,11 +18,12 @@ public:
 	bool isOnFire();
 	bool extinguish();
 	void reignite();
+	void setPosition(float treeX, float treeY);
+	bool t_OnFire;
 
 private:
 	float treeX = 0;
 	float treeY = 0;
-	bool t_OnFire;
 
 	Sprite t_Sprite;
 	Texture t_Texture;

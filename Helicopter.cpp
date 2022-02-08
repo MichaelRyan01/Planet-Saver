@@ -51,14 +51,6 @@ FloatRect Helicopter::getPosition()
 
 }
 
-Vector2f Helicopter::getCenter() 
-
-{
-
-	return m_Position;
-
-}
-
 float Helicopter::getRotation() 
 
 {

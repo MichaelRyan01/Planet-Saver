@@ -8,7 +8,6 @@ Trees::Trees(float treeX, float treeY, bool isOnFire)
 	t_Position.x = treeX;
 	t_Position.y = treeY;
 	isOnFire = true;
-	t_Sprite.setScale(0.3, 0.3);
 	t_Sprite.setOrigin(148, 244);
 	t_Sprite.setPosition(t_Position);
 
@@ -43,7 +42,7 @@ bool Trees::extinguish()
 {
 
 	t_OnFire = false;
-	t_Sprite = Sprite(TileManager::GetTexture("graphics/tree.png"));
+	t_Sprite.setTexture(TileManager::GetTexture("graphics/tree.png"));
 	return t_OnFire;
 
 }
@@ -53,5 +52,14 @@ void Trees::reignite()
 {
 
 	t_OnFire = true;
+
+}
+
+void Trees::setPosition(float treeX, float treeY)
+
+{
+
+	t_Position.x = treeX;
+	t_Position.y = treeY;
 
 }

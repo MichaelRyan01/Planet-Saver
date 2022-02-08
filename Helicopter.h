@@ -13,7 +13,6 @@ public:
 	Helicopter(float heliX, float heliY);
 	void spawn(IntRect map, Vector2f resolution, int tileSize);
 	FloatRect getPosition();
-	Vector2f getCenter();
 	float getRotation();
 	Sprite getSprite();
 

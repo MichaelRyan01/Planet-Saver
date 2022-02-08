@@ -86,7 +86,7 @@ int main() {
 	fireText.setFont(font);
 	fireText.setCharacterSize(70);
 	fireText.setFillColor(Color::White);
-	fireText.setPosition(0, 975);
+	fireText.setPosition(750, 975);
 	fireText.setString("Fires Remaining: " + firesRemaining);
 
 	//Fire Text
@@ -94,7 +94,7 @@ int main() {
 	waterText.setFont(font);
 	waterText.setCharacterSize(70);
 	waterText.setFillColor(Color::White);
-	waterText.setPosition(1250, 975);
+	waterText.setPosition(50, 975);
 	waterText.setString("Water Left: ");
 
 	///code by tommy
@@ -181,8 +181,8 @@ int main() {
 	Waste waste1(1000, 750, true);
 	Waste waste2(1300, 850, true);
 
-	Trees tree1(700, 700, true);
-	Trees tree2(100, 400, true);
+	Trees tree1(1400, 600, true);
+	Trees tree2(300, 400, true);
 
 	Shark shark(960, 1080);
 
@@ -425,6 +425,8 @@ int main() {
 
 		}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		if (state == State::PLAYINGHELI)
 
 		{
@@ -441,8 +443,6 @@ int main() {
 			float dtAsSeconds = dt.asSeconds();
 
 			heli.update(dtAsSeconds);
-
-			Vector2f heliPosition(sub.getCenter());
 
 			heli.movement();
 
@@ -503,6 +503,9 @@ int main() {
 
 			}
 
+			//Increment the frames since last hud calculation
+			framesSinceLastHUDUpdate++;
+
 			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval)
 
 			{
@@ -521,19 +524,19 @@ int main() {
 			}
 
 			// putting out fires
-			if (heli.getPosition().intersects(tree1.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && tree1.isOnFire() == true)
+			if (heli.getPosition().intersects(tree1.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space))
 
 			{
 
-				if (heli.currentWater > 0)
+					if (heli.currentWater > 0)
 
-				{
+					{
 
-					tree1.extinguish();
-					firesRemaining--;
-					heli.currentWater--;
+						tree1.extinguish();
+						firesRemaining--;
+						heli.currentWater--;
 
-				}
+					}
 
 			}
 
@@ -553,11 +556,19 @@ int main() {
 
 			}
 
-			if (heli.getPosition().intersects(lake.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && heli.currentWater > 5)
+			//get water
+
+			if (heli.getPosition().intersects(lake.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space))
 
 			{
 
-				heli.currentWater = heli.currentWater++;
+				if (heli.currentWater < heli.maxWater)
+
+				{
+
+					heli.currentWater = heli.currentWater++;
+
+				}
 
 			}
 
@@ -778,11 +789,11 @@ int main() {
 
 			window.setView(hudView);
 
-			window.draw(tree1.getSprite());
-
-			window.draw(tree1.getSprite());
-
 			window.draw(lake.getSprite());
+
+			window.draw(tree1.getSprite());
+
+			window.draw(tree2.getSprite());
 
 			window.draw(heli.getSprite());
 
@@ -844,7 +855,7 @@ int main() {
 
 			{
 
-				window.draw(checkMark1);
+				window.draw(checkMark2);
 
 			}
 
