@@ -16,7 +16,7 @@
 int main() {
 	TileManager holder;
 
-	enum class State {MENU, ABOUT, HOWTOPLAY, GAMEOVERSUB, GAMEOVERHELI, PLAYINGSUB, PLAYINGHELI};
+	enum class State { MENU, ABOUT, HOWTOPLAY, GAMEOVERSUB, GAMEOVERHELI, PLAYINGSUB, PLAYINGHELI };
 	State state = State::MENU;
 
 	Vector2f resolution;
@@ -31,7 +31,7 @@ int main() {
 	Clock clock;
 
 	//waste variable
-	int wasteRemaining = 2;
+	int wasteRemaining = 6;
 
 	int firesRemaining = 2;
 
@@ -177,9 +177,19 @@ int main() {
 
 	Rocks rock1(500, 500);
 	Rocks rock2(700, 400);
+	Rocks rock3(1000, 900);
+	Rocks rock4(1300, 600);
+	Rocks rock5(200, 750);
+	Rocks rock6(200, 200);
+	Rocks rock7(1700, 200);
+
 
 	Waste waste1(1000, 750, true);
 	Waste waste2(1300, 850, true);
+	Waste waste3(400, 200, true);
+	Waste waste4(900, 300, true);
+	Waste waste5(300, 300, true);
+	Waste waste6(1700, 800, true);
 
 	Trees tree1(1400, 600, true);
 	Trees tree2(300, 400, true);
@@ -272,8 +282,13 @@ int main() {
 
 			sub.movement();
 			//Sub and Rocks Collisions
-			if (sub.getPosition().intersects(rock1.getPosition()) 
-			|| sub.getPosition().intersects(rock2.getPosition())) {
+			if (sub.getPosition().intersects(rock1.getPosition())
+				|| sub.getPosition().intersects(rock2.getPosition()) 
+					|| sub.getPosition().intersects(rock3.getPosition()) 
+						|| sub.getPosition().intersects(rock4.getPosition())
+							|| sub.getPosition().intersects(rock5.getPosition())
+								|| sub.getPosition().intersects(rock6.getPosition())
+									|| sub.getPosition().intersects(rock7.getPosition())){
 				if (Keyboard::isKeyPressed(Keyboard::W) || (Keyboard::isKeyPressed(Keyboard::Up))) {
 					sub.stopUp();
 				}
@@ -306,7 +321,7 @@ int main() {
 
 			{
 
-				 if (Keyboard::isKeyPressed(Keyboard::S)) {
+				if (Keyboard::isKeyPressed(Keyboard::S)) {
 					sub.stopDown();
 				}
 
@@ -375,6 +390,46 @@ int main() {
 
 			}
 
+			if (sub.getPosition().intersects(waste3.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && waste3.isSpawned())
+
+			{
+
+				waste3.clean();
+				wasteRemaining--;
+				score = score + 100;
+
+			}
+
+			if (sub.getPosition().intersects(waste4.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && waste4.isSpawned())
+
+			{
+
+				waste4.clean();
+				wasteRemaining--;
+				score = score + 100;
+
+			}
+
+			if (sub.getPosition().intersects(waste5.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && waste5.isSpawned())
+
+			{
+
+				waste5.clean();
+				wasteRemaining--;
+				score = score + 100;
+
+			}
+
+			if (sub.getPosition().intersects(waste6.getPosition()) && Keyboard::isKeyPressed(Keyboard::Space) && waste6.isSpawned())
+
+			{
+
+				waste6.clean();
+				wasteRemaining--;
+				score = score + 100;
+
+			}
+
 			//size up health bar
 			healthBar.setSize(Vector2f(sub.getHealth() * 3, 75));
 			healthBarBackground.setSize(Vector2f(300, 75));
@@ -416,8 +471,12 @@ int main() {
 				state = State::MENU;
 				waste1.respawnWaste();
 				waste2.respawnWaste();
+				waste3.respawnWaste();
+				waste4.respawnWaste();
+				//waste5.respawnWaste();
+				//waste6.respawnWaste();
 				sub.resetVehicleStats();
-				wasteRemaining = 2;
+				wasteRemaining = 5;
 				subWin = true;
 				score = 0;
 
@@ -447,10 +506,10 @@ int main() {
 			heli.movement();
 
 			//Helicopter and border detection
-			if (heli.getPosition().intersects(topBorder.getPosition())) 
-			
+			if (heli.getPosition().intersects(topBorder.getPosition()))
+
 			{
-			
+
 				if (Keyboard::isKeyPressed(Keyboard::W) || (Keyboard::isKeyPressed(Keyboard::Up)))
 
 				{
@@ -458,11 +517,11 @@ int main() {
 					heli.stopUp();
 
 				}
-			
+
 			}
 
-			if (heli.getPosition().intersects(leftBorder.getPosition())) 
-			
+			if (heli.getPosition().intersects(leftBorder.getPosition()))
+
 			{
 
 				if (Keyboard::isKeyPressed(Keyboard::A) || (Keyboard::isKeyPressed(Keyboard::Left)))
@@ -472,7 +531,7 @@ int main() {
 					heli.stopLeft();
 
 				}
-			
+
 			}
 
 			if (heli.getPosition().intersects(HeliUI.getPosition()))
@@ -494,11 +553,11 @@ int main() {
 			{
 
 				if (Keyboard::isKeyPressed(Keyboard::D) || (Keyboard::isKeyPressed(Keyboard::Right)))
-				
+
 				{
-				
+
 					heli.stopRight();
-				
+
 				}
 
 			}
@@ -528,15 +587,15 @@ int main() {
 
 			{
 
-					if (heli.currentWater > 0)
+				if (heli.currentWater > 0)
 
-					{
+				{
 
-						tree1.extinguish();
-						firesRemaining--;
-						heli.currentWater--;
+					tree1.extinguish();
+					firesRemaining--;
+					heli.currentWater--;
 
-					}
+				}
 
 			}
 
@@ -600,8 +659,12 @@ int main() {
 			state = State::PLAYINGSUB;
 			waste1.respawnWaste();
 			waste2.respawnWaste();
+			waste3.respawnWaste();
+			waste4.respawnWaste();
+			//waste5.respawnWaste();
+			//waste5.respawnWaste();
 			sub.resetVehicleStats();
-			wasteRemaining = 2;
+			wasteRemaining = 5;
 			score = 0;
 		}
 
@@ -610,23 +673,27 @@ int main() {
 			state = State::MENU;
 			waste1.respawnWaste();
 			waste2.respawnWaste();
+			waste3.respawnWaste();
+			waste4.respawnWaste();
+			waste5.respawnWaste();
+			waste6.respawnWaste();
 			sub.resetVehicleStats();
-			wasteRemaining = 2;
+			wasteRemaining = 5;
 			score = 0;
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::R) && state == State::GAMEOVERHELI)
-		
+
 		{
-		
+
 			state = State::PLAYINGHELI;
 
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Enter) && state == State::GAMEOVERHELI)
-		
+
 		{
-		
+
 			state = State::MENU;
 
 		}
@@ -640,11 +707,11 @@ int main() {
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::R) && state == State::HOWTOPLAY)
-		
+
 		{
-		
+
 			state = State::MENU;
-		
+
 		}
 
 		// Handles picking play (Tommy)
@@ -655,11 +722,11 @@ int main() {
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Num2) && state == State::MENU)
-		
+
 		{
-		
+
 			state = State::PLAYINGHELI;
-		
+
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Num3) && state == State::MENU)
@@ -709,6 +776,16 @@ int main() {
 
 			window.draw(rock2.getSprite());
 
+			window.draw(rock3.getSprite());
+
+			window.draw(rock4.getSprite());
+
+			window.draw(rock5.getSprite());
+
+			window.draw(rock6.getSprite());
+
+			window.draw(rock7.getSprite());
+
 			if (waste1.isSpawned())
 
 			{
@@ -722,6 +799,38 @@ int main() {
 			{
 
 				window.draw(waste2.getSprite());
+
+			}
+
+			if (waste3.isSpawned())
+
+			{
+
+				window.draw(waste3.getSprite());
+
+			}
+
+			if (waste4.isSpawned())
+
+			{
+
+				window.draw(waste4.getSprite());
+
+			}
+
+			if (waste5.isSpawned())
+
+			{
+
+				window.draw(waste5.getSprite());
+
+			}
+
+			if (waste6.isSpawned())
+
+			{
+
+				window.draw(waste6.getSprite());
 
 			}
 
@@ -873,8 +982,8 @@ int main() {
 			window.display();
 		}
 
-		if (state == State::ABOUT) 
-		
+		if (state == State::ABOUT)
+
 		{
 
 			window.setView(mainView);
@@ -884,7 +993,7 @@ int main() {
 			window.draw(aboutText);
 
 			window.display();
-		
+
 		}
 
 	}
