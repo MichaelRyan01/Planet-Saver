@@ -39,6 +39,7 @@ int main() {
 	bool heliWin = false;
 
 	int score = 0;
+	int highScore = 0;
 
 	Time gameTime;
 
@@ -89,13 +90,20 @@ int main() {
 	fireText.setPosition(750, 975);
 	fireText.setString("Fires Remaining: " + firesRemaining);
 
-	//Fire Text
+	//Water Text
 	Text waterText;
 	waterText.setFont(font);
 	waterText.setCharacterSize(70);
 	waterText.setFillColor(Color::White);
 	waterText.setPosition(50, 975);
 	waterText.setString("Water Left: ");
+
+	Text highScoreText;
+	highScoreText.setFont(font);
+	highScoreText.setCharacterSize(30);
+	highScoreText.setFillColor(Color::White);
+	highScoreText.setPosition(1600, 100);
+	highScoreText.setString("High Score: " + highScore);
 
 	///code by tommy
 
@@ -191,8 +199,8 @@ int main() {
 	Waste waste5(300, 300, true);
 	Waste waste6(1700, 800, true);
 
-	Trees tree1(1400, 600, true);
-	Trees tree2(300, 400, true);
+	Trees tree1(500, 500, true);
+	Trees tree2(1000, 1000, true);
 
 	Shark shark(960, 1080);
 
@@ -473,11 +481,29 @@ int main() {
 				waste2.respawnWaste();
 				waste3.respawnWaste();
 				waste4.respawnWaste();
-				//waste5.respawnWaste();
-				//waste6.respawnWaste();
+				waste5.respawnWaste();
+				waste6.respawnWaste();
+				
+				if (sub.getHealth() == 100)
+
+				{
+
+					score = score * 2;
+
+				}
+
 				sub.resetVehicleStats();
-				wasteRemaining = 5;
+				wasteRemaining = 6;
 				subWin = true;
+
+				if (score > highScore)
+
+				{
+
+					highScore = score;
+
+				}
+
 				score = 0;
 
 			}
@@ -661,10 +687,19 @@ int main() {
 			waste2.respawnWaste();
 			waste3.respawnWaste();
 			waste4.respawnWaste();
-			//waste5.respawnWaste();
-			//waste5.respawnWaste();
+			waste5.respawnWaste();
+			waste5.respawnWaste();
 			sub.resetVehicleStats();
-			wasteRemaining = 5;
+			wasteRemaining = 6;
+
+			if (score > highScore)
+
+			{
+
+				highScore = score;
+
+			}
+
 			score = 0;
 		}
 
@@ -678,7 +713,16 @@ int main() {
 			waste5.respawnWaste();
 			waste6.respawnWaste();
 			sub.resetVehicleStats();
-			wasteRemaining = 5;
+			wasteRemaining = 6;
+
+			if (score > highScore)
+
+			{
+
+				highScore = score;
+
+			}
+
 			score = 0;
 		}
 
@@ -749,6 +793,26 @@ int main() {
 			state == State::MENU)
 		{
 			window.close();
+		}
+
+		if (state == State::MENU)
+
+		{
+
+			framesSinceLastHUDUpdate++;
+
+			if (framesSinceLastHUDUpdate > fpsMeasurementFrameInterval)
+
+			{
+
+				std::stringstream ssHighScore;
+
+				ssHighScore << "High Score: " << highScore;
+				highScoreText.setString(ssHighScore.str());
+
+
+			}
+
 		}
 
 		/*
@@ -967,6 +1031,8 @@ int main() {
 				window.draw(checkMark2);
 
 			}
+
+			window.draw(highScoreText);
 
 			window.display();
 		}
