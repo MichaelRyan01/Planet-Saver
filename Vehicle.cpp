@@ -6,21 +6,27 @@
 using namespace sf;
 using namespace std;
 
+//The vehicle constructor will ask for specific coordinates 
 vehicle::vehicle(float subX, float subY) {
+	//The position is being set to the float coords
 	m_Position.x = subX;
 	m_Position.y = subY;
 
+	//Setting the speed and health variables
 	m_speed = START_SPEED;
 	m_health = START_HEALTH;
 	m_maxHealth = START_HEALTH;
 
+	//Setting the sub sprites texture
 	m_Sprite = Sprite(TileManager::GetTexture(
 		"graphics/sub.png"));
 
+	//Scale and Origin
 	m_Sprite.setOrigin(90, 202);
 	m_Sprite.setScale(0.2f, 0.2f);
 }
 
+//Spawning the submarine into the map 
 void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
 	m_Position.x = map.width / 2;
 	m_Position.y = map.height / 2;
@@ -36,58 +42,73 @@ void vehicle::spawn(IntRect map, Vector2f resolution, int tileSize) {
 	m_Resolution.y = resolution.y;
 }
 
+//Returns the sprites global bounds
 FloatRect vehicle::getPosition() {
 	return m_Sprite.getGlobalBounds();
 }
 
+//returns the sprites center
 Vector2f vehicle::getCenter() {
 	return m_Position;
 }
 
+//returns the sprites rotation
 float vehicle::getRotation() {
 	return m_Sprite.getRotation();
 }
 
+//Returns the sprite itself when called
 Sprite vehicle::getSprite() {
 	return m_Sprite;
 }
 
+//Returns the health variable of the sprite
 int vehicle::getHealth() {
 	return m_health;
 }
 
+//Sets the moveLeft to true when pressed
 void vehicle::moveLeft() {
 	m_LeftPressed = true;
 }
 
+//Sets the moveRight true when pressed
 void vehicle::moveRight() {
 	m_RightPressed = true;
 }
 
+//Sets the moveUp to true when pressed
 void vehicle::moveUp() {
 	m_UpPressed = true;
 }
 
+//Sets the moveDown to true when pressed
 void vehicle::moveDown() {
 	m_DownPressed = true;
 }
 
+//Sets the stopLeft to false when pressed
 void vehicle::stopLeft() {
 	m_LeftPressed = false;
 }
 
+//Sets the stopRight to false when pressed
 void vehicle::stopRight() {
 	m_RightPressed = false;
 }
 
+//Sets the stopUp to false when pressed
 void vehicle::stopUp() {
 	m_UpPressed = false;
 }
 
+//Sets the stopDown to false when pressed
 void vehicle::stopDown() {
 	m_DownPressed = false;
 }
 
+//Updates the submarine so that it moves based on speed and 
+//updates its position
 void vehicle::update(float elapsedTime) {
 
 	if (m_UpPressed) {
@@ -129,52 +150,60 @@ void vehicle::update(float elapsedTime) {
 
 }
 
+//Boost function (incomplete)
 void vehicle::boost(Time boostingTime) {
 	m_boostLive = BOOST_LIVE_TIME;
 	m_waitTime = BOOST_WAIT_TIME;
-	
+
 	boostingTime.asMilliseconds() - boostTime.asMilliseconds() > 5000;// 5 seconds
 	{
 		int boostValue = 5;
 		m_speed = m_speed + boostValue;
-		
+
 	}
 }
-
+//Increments the negative distance of X
 int vehicle::negDistanceX() {
 	float newX = m_Position.x--;
 
 	return newX;
 }
 
+//Increments the positive distance of X
 int vehicle::posDistanceX() {
 	float newX = m_Position.x++;
 
 	return newX;
 }
 
+//Increments the negative distance of Y
 int vehicle::negDistanceY() {
 	float newY = m_Position.y--;
 
 	return newY;
 }
 
+//Increments the positive distance of Y
 int vehicle::posDistanceY() {
 	float newY = m_Position.y++;
 
 	return newY;
 }
 
+//Returns the subY coordinate
 float vehicle::getY() {
 	return subY;
 }
 
+//Returns the subX coordinate
 float vehicle::getX() {
 	return subX;
 }
 
+//Hit function
 bool vehicle::hit(Time timeHit)
 {
+	//Creates a 2 second delay whenever the submarine takes damage
 	if (timeHit.asMilliseconds() - m_LastHit.asMilliseconds() > 2000)// 2 seconds
 	{
 		m_LastHit = timeHit;
@@ -187,6 +216,8 @@ bool vehicle::hit(Time timeHit)
 	}
 }
 
+//Movement function to determine correct sprite directions
+//Sets the keys based on specific needs and controls
 void vehicle::movement()
 
 {
@@ -303,7 +334,8 @@ void vehicle::movement()
 	}
 }
 
-void vehicle::resetVehicleStats() 
+//resets the vehicles stats whenever the games are to restart
+void vehicle::resetVehicleStats()
 {
 	m_speed = START_SPEED;
 	m_health = START_HEALTH;

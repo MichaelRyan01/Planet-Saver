@@ -11,6 +11,7 @@ using namespace std;
 class TileManager {
 public:
 	TileManager();
+	//Static variable designed to take in a filename for textures
 	static Texture& GetTexture(string const& filename);
 
 private:

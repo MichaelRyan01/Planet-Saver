@@ -15,10 +15,12 @@
 
 int main() {
 	TileManager holder;
-
+	//Enumerator class that creates the states of play
 	enum class State { MENU, ABOUT, HOWTOPLAY, GAMEOVERSUB, GAMEOVERHELI, PLAYINGSUB, PLAYINGHELI };
+	//The game will automatically start in the menu state
 	State state = State::MENU;
 
+	//Window setup for the game 
 	Vector2f resolution;
 	resolution.x = VideoMode::getDesktopMode().width;
 	resolution.y = VideoMode::getDesktopMode().height;
@@ -30,14 +32,14 @@ int main() {
 
 	Clock clock;
 
-	//waste variable
+	//waste remaining variable
 	int wasteRemaining = 6;
-
+	//fires remaining variable
 	int firesRemaining = 2;
-
+	//booleen variables for the win conditions
 	bool subWin = false;
 	bool heliWin = false;
-
+	//Hi score variables
 	int score = 0;
 	int highScore = 0;
 
@@ -98,11 +100,12 @@ int main() {
 	waterText.setPosition(50, 975);
 	waterText.setString("Water Left: ");
 
+	//High Score Text
 	Text highScoreText;
 	highScoreText.setFont(font);
 	highScoreText.setCharacterSize(30);
-	highScoreText.setFillColor(Color::White);
-	highScoreText.setPosition(1600, 100);
+	highScoreText.setFillColor(Color::Red);
+	highScoreText.setPosition(75, 100);
 	highScoreText.setString("High Score: " + highScore);
 
 	///code by tommy
@@ -120,6 +123,7 @@ int main() {
 	howToPlayText.setFillColor(Color::Magenta);
 	howToPlayText.setPosition(300, 100);
 
+	//Stringstream for the how to play menu
 	std::stringstream howToPlayStream;
 	howToPlayStream <<
 		"How to Play" <<
@@ -137,13 +141,14 @@ int main() {
 		"\nR = Back to Menu";
 	howToPlayText.setString(howToPlayStream.str());
 
-	//About
+	//About Text
 	Text aboutText;
 	aboutText.setFont(font);
 	aboutText.setCharacterSize(55);
 	aboutText.setFillColor(Color::Magenta);
 	aboutText.setPosition(300, 100);
 
+	//Stringstream for the about section of the menu
 	std::stringstream aboutStream;
 	aboutStream <<
 		"About" <<
@@ -159,14 +164,14 @@ int main() {
 		"\nR = Back to Menu";
 	aboutText.setString(aboutStream.str());
 
-	// Menu
+	// Menu Text 
 	Text menuText;
 	menuText.setFont(font);
 	menuText.setCharacterSize(110);
 	menuText.setFillColor(Color::White);
 	menuText.setPosition(170, 330);
 
-
+	//Stringstream for the about section of the menu
 	std::stringstream MenuStream;
 	MenuStream <<
 		"1- Submarine Game" <<
@@ -178,11 +183,19 @@ int main() {
 	menuText.setString(MenuStream.str());
 
 
-	// creating objects
+	/*
+	********************
+	* Creating Objects *
+	********************
+	*/
+
+	//Submarine Object
 	vehicle sub(960, 500);
 
+	//Helicopter Object
 	Helicopter heli(960, 500);
 
+	//Rock Objects
 	Rocks rock1(500, 500);
 	Rocks rock2(700, 400);
 	Rocks rock3(1000, 900);
@@ -191,7 +204,7 @@ int main() {
 	Rocks rock6(200, 200);
 	Rocks rock7(1700, 200);
 
-
+	//Waste Objects
 	Waste waste1(1000, 750, true);
 	Waste waste2(1300, 850, true);
 	Waste waste3(400, 200, true);
@@ -199,41 +212,57 @@ int main() {
 	Waste waste5(300, 300, true);
 	Waste waste6(1700, 800, true);
 
+	//Tree Objects
 	Trees tree1(500, 500, true);
 	Trees tree2(1000, 1000, true);
 
+	//Shark Object
 	Shark shark(960, 1080);
 
+	//Lake Object
 	Lake lake(710, 290);
 
+	//TopBorder Object
 	TopBorder topBorder(0, 0);
 
+	//SideBorder Object
 	SideBorder leftBorder(0, 0);
 
+	//RightBorder Object
 	RightBorder rightBorder(2045, 0);
 
+	//UI Objects
 	SubUI SubUI(0, 965);
 	HeliUI HeliUI(0, 965);
 
+	//Setting up background textures
 	IntRect map;
 
 	VertexArray background;
 
+	//Setting background texture for Sub game
 	Texture textureBackground = TileManager::GetTexture(
 		"graphics/background.png");
 
+	//Setting background texture for Heli game
 	Texture textureBackgroundHeli = TileManager::GetTexture("graphics/backgroundHeli.png");
 
+	//Setting Game Over texture for Sub game
 	Texture textureGameOverSub = TileManager::GetTexture("graphics/gameOverSub.png");
 
+	//Setting Game Over texture for Heli game
 	Texture textureGameOverHeli = TileManager::GetTexture("graphics/gameOverHeli.png");
 
+	//Setting Pause texture 
 	Texture textureOtherMenu = TileManager::GetTexture("graphics/pause.png");
 
+	//Setting boost texture for Sub game
 	Texture textureBoostButton = TileManager::GetTexture("graphics/boostIcon.png");
 
+	//Setting check mark texture
 	Texture textureCheckMark = TileManager::GetTexture("graphics/checkmark.png");
 
+	//Sprite declarations for menus and backgrounds
 	Sprite spriteBackground;
 	spriteBackground.setTexture(textureBackground);
 	spriteBackground.setPosition(0, 0);
@@ -275,6 +304,14 @@ int main() {
 			window.close();
 		}
 
+		/*
+		**************
+		* SHARK GAME *
+		**************
+		*/
+
+		//When the num1 key is pressed the sharks position
+		//will be reset every time 
 		if (Keyboard::isKeyPressed(Keyboard::Num1))
 
 		{
@@ -291,12 +328,12 @@ int main() {
 			sub.movement();
 			//Sub and Rocks Collisions
 			if (sub.getPosition().intersects(rock1.getPosition())
-				|| sub.getPosition().intersects(rock2.getPosition()) 
-					|| sub.getPosition().intersects(rock3.getPosition()) 
-						|| sub.getPosition().intersects(rock4.getPosition())
-							|| sub.getPosition().intersects(rock5.getPosition())
-								|| sub.getPosition().intersects(rock6.getPosition())
-									|| sub.getPosition().intersects(rock7.getPosition())){
+				|| sub.getPosition().intersects(rock2.getPosition())
+				|| sub.getPosition().intersects(rock3.getPosition())
+				|| sub.getPosition().intersects(rock4.getPosition())
+				|| sub.getPosition().intersects(rock5.getPosition())
+				|| sub.getPosition().intersects(rock6.getPosition())
+				|| sub.getPosition().intersects(rock7.getPosition())) {
 				if (Keyboard::isKeyPressed(Keyboard::W) || (Keyboard::isKeyPressed(Keyboard::Up))) {
 					sub.stopUp();
 				}
@@ -325,6 +362,7 @@ int main() {
 				sub.posDistanceX();
 			}
 
+			//Code that provides collisions with the UI and the vehicle
 			if (sub.getPosition().intersects(SubUI.getPosition()))
 
 			{
@@ -334,7 +372,7 @@ int main() {
 				}
 
 			}
-
+			//Right border collisions
 			if (sub.getPosition().intersects(rightBorder.getPosition()))
 
 			{
@@ -350,12 +388,14 @@ int main() {
 			map.left = 0;
 			map.top = 0;
 
+			//Delta time clock setup
 			Time dt = clock.restart();
 
 			gameTime += dt;
 
 			float dtAsSeconds = dt.asSeconds();
 
+			//Delta time for sub updates and shark attack functions
 			sub.update(dtAsSeconds);
 
 			shark.attack(dtAsSeconds, sub.getCenter());
@@ -463,7 +503,8 @@ int main() {
 				scoreText.setString(ssScore.str());
 
 			}
-
+			//If the submarines health is 0 then
+			//the it will go to a game over screen
 			if (sub.getHealth() == 0)
 
 			{
@@ -472,6 +513,8 @@ int main() {
 
 			}
 
+			//If the wasteRemaining is 0 then it will
+			//change to the menu and respawn all the waste
 			if (wasteRemaining == 0)
 
 			{
@@ -483,7 +526,9 @@ int main() {
 				waste4.respawnWaste();
 				waste5.respawnWaste();
 				waste6.respawnWaste();
-				
+
+				//If the sub stays at perfect health during this phase
+				//then you will recieve double points 
 				if (sub.getHealth() == 100)
 
 				{
@@ -492,10 +537,15 @@ int main() {
 
 				}
 
+				//Resets the stats for the sub
 				sub.resetVehicleStats();
+				//Resets the waste remaining back to 6
 				wasteRemaining = 6;
+				//Changes the subWin condition to true 
 				subWin = true;
 
+				//Ensures that if you get a higher score it will 
+				//overwrite the previous score
 				if (score > highScore)
 
 				{
@@ -511,6 +561,13 @@ int main() {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		/*
+		*************
+		* HELI GAME *
+		*************
+		*/
 
 		if (state == State::PLAYINGHELI)
 
@@ -529,6 +586,8 @@ int main() {
 
 			heli.update(dtAsSeconds);
 
+			//Calls the movement function for the heli sprites
+			//so that it can change rotation based on input
 			heli.movement();
 
 			//Helicopter and border detection
@@ -703,6 +762,13 @@ int main() {
 			score = 0;
 		}
 
+		/*
+		******************
+		* GAME OVER CODE *
+		******************
+		*/
+
+		//Game over for the sub
 		if (Keyboard::isKeyPressed(Keyboard::Enter) && state == State::GAMEOVERSUB)
 		{
 			state = State::MENU;
@@ -725,7 +791,7 @@ int main() {
 
 			score = 0;
 		}
-
+		//Game over for the heli
 		if (Keyboard::isKeyPressed(Keyboard::R) && state == State::GAMEOVERHELI)
 
 		{
@@ -758,13 +824,13 @@ int main() {
 
 		}
 
-		// Handles picking play (Tommy)
+		// Handles picking play for heli game (Tommy)
 		if (Keyboard::isKeyPressed(Keyboard::Num1) &&
 			state == State::MENU)
 		{
 			state = State::PLAYINGSUB;
 		}
-
+		// Handles picking play for heli game (Tommy)
 		if (Keyboard::isKeyPressed(Keyboard::Num2) && state == State::MENU)
 
 		{
@@ -772,7 +838,7 @@ int main() {
 			state = State::PLAYINGHELI;
 
 		}
-
+		// Handles picking how to play for (Tommy)
 		if (Keyboard::isKeyPressed(Keyboard::Num3) && state == State::MENU)
 
 		{
@@ -795,6 +861,7 @@ int main() {
 			window.close();
 		}
 
+		//Updates the high score thats seen in the menu 
 		if (state == State::MENU)
 
 		{
@@ -820,7 +887,7 @@ int main() {
 		* DRAW *
 		********
 		*/
-		//Draws the view in the window while in the playing state 
+		//Draws the view in the window while in the playingsub state 
 		if (state == State::PLAYINGSUB)
 
 		{
@@ -917,6 +984,7 @@ int main() {
 			window.display();
 		}
 
+		//Draws the view in the window while in the gameoversub state 
 		if (state == State::GAMEOVERSUB)
 
 		{
@@ -945,7 +1013,7 @@ int main() {
 			window.display();
 
 		}
-
+		//Draws the view in the window while in the playingheli state
 		if (state == State::PLAYINGHELI)
 
 		{
@@ -979,7 +1047,7 @@ int main() {
 			window.display();
 
 		}
-
+		//Draws the view in the window while in the gameoverheli state 
 		if (state == State::GAMEOVERHELI)
 
 		{
@@ -988,6 +1056,7 @@ int main() {
 
 			window.draw(gameOverHeli);
 
+			//Sets the text for game over 
 			Text gameOverText1;
 			gameOverText1.setFont(font);
 			gameOverText1.setCharacterSize(100);
@@ -995,6 +1064,7 @@ int main() {
 			gameOverText1.setPosition(700, 500);
 			gameOverText1.setString("Game Over!");
 
+			//Sets the text for the return to menu part 
 			Text gameOverText2;
 			gameOverText2.setFont(font);
 			gameOverText2.setCharacterSize(50);
@@ -1002,6 +1072,7 @@ int main() {
 			gameOverText2.setPosition(300, 600);
 			gameOverText2.setString("Press R to restart or ESC to return to menu.");
 
+			//Drawing and displaying both game over texts
 			window.draw(gameOverText1);
 			window.draw(gameOverText2);
 
@@ -1009,6 +1080,7 @@ int main() {
 
 		}
 
+		//Draws the view in the window while in menu state
 		if (state == State::MENU) {
 			window.setView(mainView);
 
@@ -1016,6 +1088,8 @@ int main() {
 
 			window.draw(menuText);
 
+			//If the subwin condition is true then the check mark will 
+			//appear beside the sub game in the menu 
 			if (subWin == true)
 
 			{
@@ -1024,6 +1098,8 @@ int main() {
 
 			}
 
+			//If the heliwin condition is true then the check mark will 
+			//appear beside the sub game in the menu 
 			if (heliWin == true)
 
 			{
@@ -1037,6 +1113,7 @@ int main() {
 			window.display();
 		}
 
+		//Draws the view in the window while in the howtoplay state
 		if (state == State::HOWTOPLAY) {
 
 			window.setView(mainView);
@@ -1048,6 +1125,7 @@ int main() {
 			window.display();
 		}
 
+		//Draws the view in the window while in about state
 		if (state == State::ABOUT)
 
 		{

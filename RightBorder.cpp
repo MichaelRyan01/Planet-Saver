@@ -1,8 +1,10 @@
 #include "RightBorder.h"
+
+//The constructor ask for specific coordinates 
 RightBorder::RightBorder(float rightBorderX, float rightBorderY)
 
 {
-
+	//Sets the texture of the sprite from the file
 	s_Sprite = Sprite(TileManager::GetTexture("graphics/subUI.png"));
 
 	s_Position.x = rightBorderX;
@@ -16,7 +18,7 @@ RightBorder::RightBorder(float rightBorderX, float rightBorderY)
 FloatRect RightBorder::getPosition()
 
 {
-
+	//Returns the sprites position and global bounds
 	return s_Sprite.getGlobalBounds();
 
 }
@@ -24,7 +26,7 @@ FloatRect RightBorder::getPosition()
 Sprite RightBorder::getSprite()
 
 {
-
+	//returns the sprite to wherever its being called from
 	return s_Sprite;
 
 }

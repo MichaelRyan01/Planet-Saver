@@ -7,7 +7,7 @@ using namespace std;
 //It is being declared null here
 TileManager* TileManager::m_s_Instance = nullptr;
 
-TileManager::TileManager(){
+TileManager::TileManager() {
 	assert(m_s_Instance == nullptr);
 	m_s_Instance = this;
 }

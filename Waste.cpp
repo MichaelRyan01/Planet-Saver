@@ -1,4 +1,6 @@
 #include "Waste.h"
+
+//The constructor ask for specific coordinates 
 Waste::Waste(float wasteX, float wasteY, bool isSpawned)
 
 {
@@ -17,7 +19,7 @@ Waste::Waste(float wasteX, float wasteY, bool isSpawned)
 Sprite Waste::getSprite()
 
 {
-
+	//returns the sprite to wherever its being called from
 	return w_Sprite;
 
 }
@@ -25,7 +27,7 @@ Sprite Waste::getSprite()
 FloatRect Waste::getPosition()
 
 {
-
+	//Returns the sprites position and global bounds
 	return w_Sprite.getGlobalBounds();
 
 }
@@ -33,7 +35,7 @@ FloatRect Waste::getPosition()
 bool Waste::isSpawned()
 
 {
-
+	//returns the spawned so that it can spawn the waste properly
 	return w_Spawned;
 
 }
@@ -41,7 +43,7 @@ bool Waste::isSpawned()
 bool Waste::clean()
 
 {
-
+	//Cleans up the waste by returning the false variable
 	w_Spawned = false;
 	return w_Spawned;
 
@@ -50,7 +52,7 @@ bool Waste::clean()
 void Waste::respawnWaste()
 
 {
-
+	//respawns waste if the variable is true
 	w_Spawned = true;
 
 }
